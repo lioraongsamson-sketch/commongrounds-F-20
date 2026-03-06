@@ -12,12 +12,14 @@ class Genre(models.Model):
     class Meta:
         verbose_name = "Genre"
         verbose_name_plural = "Genres"
-        ordering = ['name']
+        ordering = ["name"]
 
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True, related_name='books')
+    genre = models.ForeignKey(
+        Genre, on_delete=models.SET_NULL, null=True, related_name="books"
+    )
     author = models.CharField()
     publication_year = models.IntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -32,7 +34,7 @@ class Book(models.Model):
     class Meta:
         verbose_name = "Book"
         verbose_name_plural = "Books"
-        ordering = ['-publication_year']
+        ordering = ["-publication_year"]
 
 
 # Create your models here.

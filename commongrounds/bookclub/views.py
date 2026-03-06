@@ -13,4 +13,5 @@ class BookDetailView(DetailView):
     model = Book
     template_name = "book_detail.html"
 
+
 # Create your views here.
