@@ -6,8 +6,7 @@ urlpatterns = [
     path(
         "bookclub/book/<int:pk>/",
         BookDetailView.as_view(),
-        name="book_detail"
-        ),
+        name="book_detail"),
 ]
 
 app_name = "bookclub"
