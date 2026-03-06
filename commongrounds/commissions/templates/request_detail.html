@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Commission Requests</h1>
+    <h2>Commission Details</h2>
+    <p><b>Title: </b>{{ commission.title }}</p>
+    <p><b>Description: </b>{{ commission.description }}</p>
+    <p><b>People Required: </b>{{ commission.people_required }}</p>
+    <p><a href="/commissions/requests">Home</a></p>
+{% endblock %}    
