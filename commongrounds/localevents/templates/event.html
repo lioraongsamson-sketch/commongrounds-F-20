@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Local Events</h3>
+    <h2>{{ event.title }} ({{ event.category }})</h2>
+    <h4> {{ event.description }}</h4>
+    <p><strong>Location:</strong> {{ event.location }}</p>
+    <p><strong>Start Time:</strong> {{ event.start_time }}</p>
+    <p><strong>End Time:</strong> {{ event.end_time }}</p>
+    <p>Shared on {{ event.created_on }}</p>
+    <p>Last updated on {{ event.updated_on }}</p>
+{% endblock %}
