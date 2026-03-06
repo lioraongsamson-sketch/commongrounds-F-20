@@ -35,6 +35,3 @@ class Book(models.Model):
         verbose_name = "Book"
         verbose_name_plural = "Books"
         ordering = ["-publication_year"]
-
-
-# Create your models here.

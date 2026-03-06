@@ -33,4 +33,3 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['name']
-# Create your models here.
