@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Commission, CommissionType
+
+
+class CommissionTypeAdmin(admin.ModelAdmin):
+    model = CommissionType
+
+
+class CommissionAdmin(admin.ModelAdmin):
+    model = Commission
+
+
+admin.site.register(CommissionType, CommissionTypeAdmin)
+admin.site.register(Commission, CommissionAdmin)
