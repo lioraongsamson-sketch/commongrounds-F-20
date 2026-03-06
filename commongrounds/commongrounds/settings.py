@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'localevents',
     'bookclub',
+    'merchstore',
 ]
 
 MIDDLEWARE = [
