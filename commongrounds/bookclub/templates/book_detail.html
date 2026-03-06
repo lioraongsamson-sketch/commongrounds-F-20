@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Book Club</h3>
+    <h3>{{ book.title }} ({{ book.publication_year }})</h3>
+    <h4>By {{ book.author }}</h4>
+    <p><b>Genre: </b>{{ book.genre }}</p>
+    <p>Shared on {{ book.created_on }}</p>
+    <p>Last updated on {{ book.updated_on }}</p>
+{% endblock %}
