@@ -5,7 +5,18 @@
         <title>Commongrounds</title>
     </head>
     <body>
-        <h1>Commongrounds</h1>
+        <header>
+            <h1> Commongrounds </h1>
+            {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+            <h2> {% block page_heading %} {% endblock %}</h2>
+        </header>
         <hr>
         {% block content %}
         {% endblock %}
