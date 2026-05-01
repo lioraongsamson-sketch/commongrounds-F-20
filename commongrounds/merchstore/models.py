@@ -21,9 +21,27 @@ class Product(models.Model):
         null=True,
         related_name='products'
     )
+    owner = models.ForeignKey(
+        'accounts.Profile',
+        on_delete=models.CASCADE
+    )
+    product_image = models.ImageField()
     description = models.TextField()
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField(max_digits=10, decimal_place=2)
+
+    status_options = [('Available','Available'),('On sale','On sale'),
+                      ('Out of stock','Out of stock')]
+    status = models.CharField(
+        choices = status_options,
+        default ='Available'
+    )
+
+    def save(self, *args, **kwargs):
+        if self.stock == 0:
+            self.statue = 'Out of stock'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name}"
