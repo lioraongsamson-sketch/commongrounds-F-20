@@ -19,9 +19,9 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('localevents.urls', namespace='localevents')),
-    path('', include('bookclub.urls', namespace='bookclub')),
-    path('', include('merchstore.urls', namespace="merchstore")),
-    path('', include('commissions.urls', namespace="commissions")),
-    path('', include('diyprojects.urls', namespace="diyprojects")),
+    path('localevents/', include('localevents.urls', namespace='localevents')),
+    path('bookclub/', include('bookclub.urls', namespace='bookclub')),
+    path('merchstore/', include('merchstore.urls', namespace="merchstore")),
+    path('commissions/', include('commissions.urls', namespace="commissions")),
+    path('diyprojects/', include('diyprojects.urls', namespace="diyprojects")),
 ]

@@ -3,8 +3,8 @@ from .views import CommissionListView, CommissionDetailView
 
 
 urlpatterns = [
-    path('commissions/requests/', CommissionListView.as_view(), name='request_list'),
-    path('commissions/request/<int:pk>',
+    path('requests/', CommissionListView.as_view(), name='request_list'),
+    path('request/<int:pk>',
          CommissionDetailView.as_view(), name='request_detail')
 ]
 
