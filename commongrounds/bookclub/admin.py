@@ -6,6 +6,10 @@ class BookInline(admin.TabularInline):
     model = Book
 
 
+class BookAdmin(admin.ModelAdmin):
+    model = Book
+
+
 class GenreAdmin(admin.ModelAdmin):
     model = Genre
     inlines = [
@@ -14,5 +18,6 @@ class GenreAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Genre, GenreAdmin)
+admin.site.register(Book, BookAdmin)
 
 # Register your models here.

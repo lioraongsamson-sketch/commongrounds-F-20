@@ -8,8 +8,13 @@ class ProjectCategoryInLine(admin.TabularInline):
 
 
 class ProjectAdmin(admin.ModelAdmin):
+    model = Project
+
+
+class ProjectCategoryAdmin(admin.ModelAdmin):
     model = ProjectCategory
     inlines = [ProjectCategoryInLine,]
 
 
-admin.site.register(ProjectCategory, ProjectAdmin)
+admin.site.register(ProjectCategory, ProjectCategoryAdmin)
+admin.site.register(Project, ProjectAdmin)

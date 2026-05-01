@@ -7,8 +7,13 @@ class ProductIngredientInLine(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    model = Product
+
+
+class ProductTypeAdmin(admin.ModelAdmin):
     model = ProductType
     inlines = [ProductIngredientInLine,]
 
 
-admin.site.register(ProductType, ProductAdmin)
+admin.site.register(ProductType, ProductTypeAdmin)
+admin.site.register(Product, ProductAdmin)
