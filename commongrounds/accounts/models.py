@@ -1,9 +1,6 @@
 from django.db import models
-from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
-
-# Create your models here.
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -11,4 +8,7 @@ class Profile(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        return '{}'.format(self.name)
+        return self.display_name
+    
+    def get_absolute_url(self):
+        return reverse('accounts:profile_update', args=[str(self.id)])
