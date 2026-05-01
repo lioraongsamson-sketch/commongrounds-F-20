@@ -34,4 +34,4 @@ class Project(models.Model):
         return reverse('diyprojects:project_detail', args=[str(self.id)])
 
     class Meta:
-        ordering = ['created_on']
+        ordering = ['-created_on']
