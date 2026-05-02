@@ -20,8 +20,11 @@ class Book(models.Model):
     genre = models.ForeignKey(
         Genre, on_delete=models.SET_NULL, null=True, related_name="books"
     )
+    contributor = models.ForeignKey('accounts.Profile', on_delete=models.SET_NULL, null=True)
     author = models.CharField()
+    synopsis = models.TextField()
     publication_year = models.IntegerField()
+    available_to_borrow = models.BooleanField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

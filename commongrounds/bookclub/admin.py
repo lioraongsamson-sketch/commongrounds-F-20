@@ -12,9 +12,6 @@ class BookAdmin(admin.ModelAdmin):
 
 class GenreAdmin(admin.ModelAdmin):
     model = Genre
-    inlines = [
-        BookInline,
-    ]
 
 
 admin.site.register(Genre, GenreAdmin)
