@@ -48,4 +48,20 @@ class ProductDetailView(DetailView):
             return redirect('product_detail', pk=product.pk)
         
         form = TransactionForm(request.POST)
-        
+
+        if form.is_valid():
+            transaction = form.save(commit=False)
+
+            if product.stock >= transaction.amount and product.stock > 0:
+                product.stock -= transaction.amount
+                product.save()
+
+                transaction.product = product
+                transaction.buyer = request.user.profile
+                transaction.status = 'On cart'
+                transaction.save()
+
+                return redirect('cart_view')
+            else:
+                return redirect('product_detail', pk=product.pk)
+        return self.get(request, *args, **kwargs)
