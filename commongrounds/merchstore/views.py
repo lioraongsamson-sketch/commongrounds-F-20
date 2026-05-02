@@ -6,6 +6,7 @@ from .models import Product
 class ProductListView(ListView):
     model = Product
     template_name = "product_list.html"
+    context_object_name = "products_all"
 
     def get_queryset(self):
         queryset = Product.objects.all()
@@ -20,7 +21,7 @@ class ProductListView(ListView):
         if self.reqest.user.is_authenticated:
             context['products_user'] = Product.object.filter(owner=self.request.user)
         else:
-            context['product_user'] = None
+            context['products_user'] = None
         return context
 
 
