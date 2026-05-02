@@ -1,6 +1,9 @@
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from .models import Product
+from .models import Product, Transaction
+from .forms import TransactionForm
+from django.shortcuts import redirect
+from django.urls import reverse
 
 
 class ProductListView(ListView):
@@ -28,3 +31,21 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = "product_detail.html"
+
+    def get_context_object_name(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = TransactionForm()
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        product = self.get_object()
+
+        if not request.user.is_authenticated:
+            login_url = reverse('login')
+            return redirect(f"{login_url}?next={request.path}")
+
+        if request.user == product.owner:
+            return redirect('product_detail', pk=product.pk)
+        
+        form = TransactionForm(request.POST)
+        
