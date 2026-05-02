@@ -18,7 +18,7 @@ class ProductListView(ListView):
             queryset = queryset.exclude(owner=self.request.user)
         return queryset
     
-    def get_context_object_name(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         if self.reqest.user.is_authenticated:
@@ -32,7 +32,7 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = "product_detail.html"
 
-    def get_context_object_name(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = TransactionForm()
         return context

@@ -6,4 +6,21 @@
     <p><b>Description</b></p>
     <p>{{ product.description }}</p>
     <p><b>Price:</b> {{ product.price }}</p>
+    <p><b>Stock:</b> {{ product.stock }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+
+        <button type="submit" {% if product.stock == 0 %} disabled {% endif %}>
+            {% if product.stock == 0 %}
+                Out of Stock
+            {% else %}
+                Buy Now
+            {% endif %}
+        </button>
+    </form>
+
+    <a href="{% url 'product_list' %}">Go Back</a>
+
 {% endblock %}
