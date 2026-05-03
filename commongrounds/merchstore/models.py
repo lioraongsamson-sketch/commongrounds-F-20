@@ -24,13 +24,14 @@ class Product(models.Model):
     )
     owner = models.ForeignKey(
         'accounts.Profile',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True
     )
-    product_image = models.ImageField()
+    product_image = models.ImageField(null=True)
     description = models.TextField()
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(null=True)
 
     status_options = [('Available','Available'),('On sale','On sale'),
                       ('Out of stock','Out of stock')]
