@@ -17,14 +17,14 @@ class ProductListView(ListView):
         queryset = Product.objects.all()
 
         if self.request.user.is_authenticated:
-            queryset = queryset.exclude(owner=self.request.user)
+            queryset = queryset.exclude(owner=self.request.user.profile)
         return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.reqest.user.is_authenticated:
-            context['products_user'] = Product.object.filter(owner=self.request.user)
+        if self.request.user.is_authenticated:
+            context['products_user'] = Product.objects.filter(owner=self.request.user.profile)
         else:
             context['products_user'] = None
         return context

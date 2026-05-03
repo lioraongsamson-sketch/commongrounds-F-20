@@ -4,12 +4,12 @@
     <h3>Merchandise Store</h3>
     <h5>Product List</h5>
 
-    <a href="{% url 'product_create' %}">Add a New Product</a>
+    <a href="{% url 'merchstore:product_create' %}">Add a New Product</a>
 
-    {% if user.is.authenticaated and products_user %}
+    {% if user.is.authenticated and products_user %}
     <h5>Your Products</h5>
     <ul>
-        {% for products in products_user %}
+        {% for product in products_user %}
         <li>
             <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
         </li>
@@ -19,11 +19,11 @@
 
     <h5>All Products</h5>
     <ul>
-        {% for products in products_all}
-        <li>
-            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
-            <p>Seller: {{ product.owner }}</p>
-        </li>
+        {% for product in products_all %}
+            <li>
+                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                <p>Seller: {{ product.owner }}</p>
+            </li>
         {% empty %}
             <li>No products avaliable</li>
         {% endfor %}
