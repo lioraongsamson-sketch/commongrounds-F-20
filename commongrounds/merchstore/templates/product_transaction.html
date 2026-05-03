@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Transactions</h2>
+{% regroup transactions by buyer as buyer_list %}
+{% for group in buyer_list %}
+    <h5>Seller: {{ group.grouper }}</h5>
+    <ul>
+        {% for transaction in group.list %}
+        <li>
+            {{ transaction.product.name }}
+            Amount: {{ transaction.amount }}
+            Status: {{ transaction.status }}
+            Purchased on: {{ transaction.created_on.date }}
+        </li>
+        {% endfor %}
+    </ul>
+{% empty %}
+    <p>Transactions are empty</p>
+{% endfor %}
+
+{% endblock %}
