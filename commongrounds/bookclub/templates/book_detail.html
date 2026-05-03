@@ -5,6 +5,15 @@
     <h3>{{ book.title }} ({{ book.publication_year }})</h3>
     <h4>By {{ book.author }}</h4>
     <p><b>Genre: </b>{{ book.genre }}</p>
-    <p>Shared on {{ book.created_on }}</p>
+    <h4>Synopsis</h4>
+    <p>{{ book.synopsis }}</p>
+    <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
+    <p>Shared on {{ book.created_on }} by {{ book.contributor }}</p>
     <p>Last updated on {{ book.updated_on }}</p>
+    <h3>Thoughts?</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ review }}
+        <input type="submit" name="submit" value="Review!">
+    </form>
 {% endblock %}
