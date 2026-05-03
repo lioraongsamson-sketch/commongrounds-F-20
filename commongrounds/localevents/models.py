@@ -27,20 +27,22 @@ class Event(models.Model):
 
     organizer = models.ManyToManyField(
         Profile,
-        on_delete=models.SET_NULL
+        related_name='organizer'
     )
     # https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/Models
+    # Doesn't have the on delete to null cause this doesn't support it...
 
-    event_image = models.ImageField()
+    event_image = models.ImageField(
+        upload_to='images/', default='.media/images/csci_default_img.png')
     description = models.TextField()
     location = models.CharField()
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
-    event_capacity = models.PositiveIntegerField()
+    event_capacity = models.PositiveIntegerField(null=True)
     status_options = [("Available", "Available"), ("Full", "Full"),
                       ("Done", "Done"), ("Cancelled", "Cancelled")]
     # From: https://forum.djangoproject.com/t/django-choices-design/9945
-    status = models.CharField(choices=status_options)
+    status = models.CharField(choices=status_options, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -70,7 +72,7 @@ class EventSignup(models.Model):
 
     user_registrant = models.ForeignKey(
         Profile,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
     new_registrant = models.CharField()
 

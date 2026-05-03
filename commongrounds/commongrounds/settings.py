@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+# from .urls import urlpatterns
 from pathlib import Path
 from dotenv import load_dotenv
 import os
@@ -124,4 +125,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR/'static',
+]
+STATIC_URL = '/static/'
+MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_URL = '/media/'
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
