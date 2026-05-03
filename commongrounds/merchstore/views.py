@@ -97,3 +97,12 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             product.status = 'Available'
         return super().form_valid(form)
 
+class CartView(LoginRequiredMixin, ListView):
+    model = Transaction
+    template_name = "product_cart.html"
+    
+    def get_queryset(self):
+        return Transaction.objects.filter(
+            buyer=self.request.user.profile,
+            status='On cart'
+        ).order_by('product__owner')
