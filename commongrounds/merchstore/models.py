@@ -30,7 +30,7 @@ class Product(models.Model):
     description = models.TextField()
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField(max_digits=10, decimal_place=2)
+    stock = models.PositiveIntegerField(decimal_place=2)
 
     status_options = [('Available','Available'),('On sale','On sale'),
                       ('Out of stock','Out of stock')]
@@ -41,7 +41,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if self.stock == 0:
-            self.statue = 'Out of stock'
+            self.status = 'Out of stock'
         super().save(*args, **kwargs)
 
     def __str__(self):
