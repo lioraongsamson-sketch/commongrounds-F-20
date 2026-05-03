@@ -11,4 +11,8 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['name', 'product_type', 'product_image','description',
                   'price','stock','status']
-        
+
+class ProductUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        exclude = ('owner',)
