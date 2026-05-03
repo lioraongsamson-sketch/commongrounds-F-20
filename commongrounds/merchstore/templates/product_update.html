@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Update Product: {{ product.name }}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" name="submit">Save Updates</button>
+    <a href="{{ product.get_absolute.url }}">Cancel</a>
+</form>
+
+<h3>Current Product Info</h3>
+<ul>
+    <li>Owner: {{ product.owner }}</li>
+    <li>Status: {{ product.status }}</li>
+    <li>Amount: {{ product.stock }}</li>
+</ul>
+{% endblock %}
