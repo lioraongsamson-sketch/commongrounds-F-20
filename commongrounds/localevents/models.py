@@ -68,4 +68,10 @@ class EventSignup(models.Model):
     # set when registrant is logged in user
     # new_registrant = charfield, set when registrant is not logged in
 
+    user_registrant = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE
+    )
     new_registrant = models.CharField()
+
+    # if request.user.is_authenticated: https://stackoverflow.com/questions/3644902/how-to-check-if-a-user-is-logged-in-how-to-properly-use-user-is-authenticated
