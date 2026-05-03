@@ -1,8 +1,8 @@
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from .models import Product, Transaction
-from .forms import TransactionForm, ProductForm
+from .forms import TransactionForm, ProductForm, ProductUpdateForm
 from django.shortcuts import redirect
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -80,3 +80,20 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin,CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user.profile
         return super().form_valid(form)
+
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Product
+    form_class = ProductUpdateForm
+    template_name = "product_update.html"
+
+    def test_func(self):
+        return self.request.user.profile.role == "Market Seller"
+    
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        if product.stock == 0:
+            product.status = 'Out of stock'
+        elif product.status == 'Out of stock' and product.stock > 0:
+            product.status = 'Available'
+        return super().form_valid(form)
+
