@@ -5,7 +5,7 @@ from .models import Product, Transaction
 from .forms import TransactionForm, ProductForm
 from django.shortcuts import redirect
 from django.urls import reverse,reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 class ProductListView(ListView):
@@ -68,7 +68,7 @@ class ProductDetailView(DetailView):
                 return redirect('product_detail', pk=product.pk)
         return self.get(request, *args, **kwargs)
     
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin,CreateView):
     model = Product
     form_class = ProductForm
     template_name = "product_form.html"
