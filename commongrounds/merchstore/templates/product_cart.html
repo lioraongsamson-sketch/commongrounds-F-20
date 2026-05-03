@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Cart</h2>
+{% regroup transactions by product.owner as owner_list %}
+{% for owner in owner_list %}
+    <h5>Seller: {{ seller.grouper.user.username }}</h5>
+    <ul>
+        {% for transaction in owner.list %}
+        <li>
+            {{ transaction.product.name }}
+            Amount: {{ transaction.amount }}
+            Status: {{ transaction.status }}
+        </li>
+        {% endfor %}
+    </ul>
+{% empty %}
+    <p>Transactions are empty</p>
+{% endfor %}
+
+{% endblock %}
