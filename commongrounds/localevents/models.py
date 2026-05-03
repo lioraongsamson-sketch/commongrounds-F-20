@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from accounts.models import Profile
 
 
 class EventType(models.Model):
@@ -24,8 +25,10 @@ class Event(models.Model):
         related_name='event'
     )
 
-    # organizer - many-to-many rs to Profile, NULL on deletion
-    # For many-to-many, use the ManyToManyField:
+    organizer = models.ManyToManyField(
+        Profile,
+        on_delete=models.SET_NULL
+    )
     # https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/Models
 
     event_image = models.ImageField()
