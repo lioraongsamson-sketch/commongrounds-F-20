@@ -106,3 +106,13 @@ class CartView(LoginRequiredMixin, ListView):
             buyer=self.request.user.profile,
             status='On cart'
         ).order_by('product__owner')
+    
+class TransactionListView(LoginRequiredMixin, ListView):
+    model = Transaction
+    template_name = "product_transaction.html"
+
+    def get_queryset(self):
+        return Transaction.objects.filter(
+            product__owner = self.request.user.profile
+        ).order_by('buyer')
+    
