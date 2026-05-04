@@ -8,8 +8,10 @@
     <ul>
         {% for transaction in owner.list %}
         <li>
-            {{ transaction.product.name }}
+            <b>{{ transaction.product.name }}</b>
+            <br>
             Amount: {{ transaction.amount }}
+            <br>
             Status: {{ transaction.status }}
         </li>
         {% endfor %}
@@ -17,5 +19,8 @@
 {% empty %}
     <p>Cart is empty</p>
 {% endfor %}
+
+<br>
+<a href="{% url 'merchstore:product_list' %}">Go Back</a>
 
 {% endblock %}

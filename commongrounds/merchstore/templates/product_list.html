@@ -5,6 +5,10 @@
     <h5>Product List</h5>
 
     <a href="{% url 'merchstore:product_create' %}">Add a New Product</a>
+    <br>
+    <a href="{% url 'merchstore:cart_view' %}">View Your Shopping Cart</a>
+    <br>
+    <a href="{% url 'merchstore:transaction_list' %}">View Your Transaction List</a>
 
     {% if user.is_authenticated and products_user %}
     <h5>Your Products</h5>

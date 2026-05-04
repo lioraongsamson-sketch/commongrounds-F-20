@@ -108,6 +108,7 @@ class CartView(LoginRequiredMixin, ListView):
 class TransactionListView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = "product_transaction.html"
+    context_object_name = "transactions"
 
     def get_queryset(self):
         return Transaction.objects.filter(

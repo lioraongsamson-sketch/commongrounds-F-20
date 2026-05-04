@@ -8,9 +8,12 @@
     <ul>
         {% for transaction in group.list %}
         <li>
-            {{ transaction.product.name }}
+            <b>{{ transaction.product.name }}</b>
+            <br>
             Amount: {{ transaction.amount }}
+            <br>
             Status: {{ transaction.status }}
+            <br>
             Purchased on: {{ transaction.created_on.date }}
         </li>
         {% endfor %}
@@ -19,4 +22,6 @@
     <p>Transactions are empty</p>
 {% endfor %}
 
+<br>
+<a href="{% url 'merchstore:product_list' %}">Go Back</a>
 {% endblock %}

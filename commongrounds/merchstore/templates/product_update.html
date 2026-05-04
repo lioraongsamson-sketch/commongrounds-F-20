@@ -15,4 +15,7 @@
     <li>Status: {{ product.status }}</li>
     <li>Amount: {{ product.stock }}</li>
 </ul>
+
+<br>
+<a href="{% url 'merchstore:product_detail' product.pk %}">Go Back</a>
 {% endblock %}

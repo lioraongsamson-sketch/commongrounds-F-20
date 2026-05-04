@@ -8,19 +8,24 @@
     <p><b>Price:</b> {{ product.price }}</p>
     <p><b>Stock:</b> {{ product.stock }}</p>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
+    {% if request.user.profile == product.owner %}
+        <a href="{% url 'merchstore:product_update' product.pk %}">Update Product</a>
+    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
 
-        <button type="submit" {% if product.stock == 0 %} disabled {% endif %}>
-            {% if product.stock == 0 %}
-                Out of Stock
-            {% else %}
-                Buy Now
-            {% endif %}
-        </button>
-    </form>
+            <button type="submit" {% if product.stock == 0 %} disabled {% endif %}>
+                {% if product.stock == 0 %}
+                    Out of Stock
+                {% else %}
+                    Buy Now
+                {% endif %}
+            </button>
+        </form>
+    {% endif %}
 
+    <br>
     <a href="{% url 'merchstore:product_list' %}">Go Back</a>
 
 {% endblock %}
