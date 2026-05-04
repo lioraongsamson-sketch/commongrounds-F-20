@@ -5,7 +5,7 @@ from .models import Product, Transaction
 from .forms import TransactionForm, ProductForm, ProductUpdateForm
 from django.shortcuts import redirect
 from django.urls import reverse,reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, RoleRequiredMixin
 
 
 class ProductListView(ListView):
@@ -68,26 +68,22 @@ class ProductDetailView(DetailView):
                 return redirect('product_detail', pk=product.pk)
         return self.get(request, *args, **kwargs)
     
-class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin,CreateView):
+class ProductCreateView(LoginRequiredMixin, RoleRequiredMixin ,CreateView):
     model = Product
     form_class = ProductForm
     template_name = "product_form.html"
     success_url = reverse_lazy('product_list')
-
-    def test_func(self):
-        return self.request.user.profile.role == "Market Seller"
+    required_role = "Market Seller"
     
     def form_valid(self, form):
         form.instance.owner = self.request.user.profile
         return super().form_valid(form)
 
-class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, RoleRequiredMixin, UpdateView):
     model = Product
     form_class = ProductUpdateForm
     template_name = "product_update.html"
-
-    def test_func(self):
-        return self.request.user.profile.role == "Market Seller"
+    required_role = "Market Seller"
     
     def form_valid(self, form):
         product = form.save(commit=False)
