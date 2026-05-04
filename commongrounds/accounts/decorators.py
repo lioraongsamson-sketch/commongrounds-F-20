@@ -12,10 +12,10 @@ def role_required(required_role):
         return _wrapped_view
     return decorator
 
-def has_required_role(self, user):
-        if not self.required_role:
+def has_required_role(user, required_role):
+        if not required_role:
             return True
         try:
-            return user.profile.role == self.required_role
+            return user.profile.role == required_role
         except AttributeError:
             return False
