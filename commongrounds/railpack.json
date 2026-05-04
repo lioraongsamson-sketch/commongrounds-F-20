@@ -1,1 +1,6 @@
-cmd = "python manage.py runserver 0.0.0.0:8000"
+{
+  "$schema": "https://schema.railpack.com",
+  "deploy": {
+    "startCommand": "gunicorn commongrounds.wsgi:application --bind 0.0.0.0:${PORT:-8000}"
+  }
+}
