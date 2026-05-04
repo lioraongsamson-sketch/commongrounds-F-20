@@ -23,13 +23,13 @@ class Commission(models.Model):
         CommissionType,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='commission'
+        related_name='commissions'
     )
     maker = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
         null=True,
-        related_name='commission'
+        related_name='commissions'
     )
     people_required = models.PositiveIntegerField()
     status = models.CharField(choices=STATUSES, default=STATUSES[0])
@@ -45,6 +45,7 @@ class Commission(models.Model):
     class Meta:
         ordering = ["created_on"]
 
+
 class Job(models.Model):
     STATUSES = [('O', 'Open'), ('F', 'Full')]
     commission = models.ForeignKey(
@@ -57,11 +58,9 @@ class Job(models.Model):
     manpower_required = models.PositiveIntegerField()
     status = models.CharField(choices=STATUSES, default=STATUSES[0])
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         ordering = ["status", "-manpower_required", "role"]
+
 
 class JobApplication(models.Model):
     STATUSES = [('P', 'Pending'), ('A', 'Accepted'), ('R', 'Rejected')]
@@ -73,9 +72,6 @@ class JobApplication(models.Model):
     )
     status = models.CharField(choices=STATUSES, default=STATUSES[0])
     applied_on = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
 
     class Meta:
         ordering = ["status", "-applied_on"]

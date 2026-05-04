@@ -3,12 +3,29 @@
 {% block content %}
     <h1>Commission Requests</h1>
     <h2>Commission List</h2>
-    <ul>
-        {% for commission in commission_list %} 
-            <li>
-                <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
-                <p>{{ commission.created_on }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    {% if user.is_authenticated %}
+        <ul>
+            <p>Welcome, {{ user.username }}!</p>
+            {% for commission in commission_list %}
+                {% if commission.maker == user.username %} 
+                    <li>
+                        <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                        <p>{{ commission.created_on }}</p>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{{ user.username }}</p>
+        <p>Created</p>
+        <ul>
+            {% for commission in commission_list %} 
+                <li>
+                    <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                    <p>{{ commission.created_on }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Applied</p>
+    {% endif %}
 {% endblock %}    
