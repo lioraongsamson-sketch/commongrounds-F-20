@@ -4,7 +4,7 @@
 <h2>Your Cart</h2>
 {% regroup transactions by product.owner as owner_list %}
 {% for owner in owner_list %}
-    <h5>Seller: {{ seller.grouper.user.username }}</h5>
+    <h5>Seller: {{ owner.grouper.user.username }}</h5>
     <ul>
         {% for transaction in owner.list %}
         <li>

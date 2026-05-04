@@ -64,7 +64,7 @@ class ProductDetailView(DetailView):
                 transaction.status = 'On cart'
                 transaction.save()
 
-                return redirect('cart_view')
+                return redirect('merchstore:cart_view')
             else:
                 return redirect('product_detail', pk=product.pk)
         return self.get(request, *args, **kwargs)
@@ -73,7 +73,7 @@ class ProductCreateView(RoleRequiredMixin ,CreateView):
     model = Product
     form_class = ProductForm
     template_name = "product_form.html"
-    success_url = reverse_lazy('product_list')
+    success_url = reverse_lazy('merchstore:product_list')
     required_role = "Market Seller"
     
     def form_valid(self, form):
@@ -97,6 +97,7 @@ class ProductUpdateView(RoleRequiredMixin, UpdateView):
 class CartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = "product_cart.html"
+    context_object_name = "transactions"
     
     def get_queryset(self):
         return Transaction.objects.filter(

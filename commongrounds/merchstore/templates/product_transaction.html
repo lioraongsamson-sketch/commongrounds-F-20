@@ -4,7 +4,7 @@
 <h2>Your Transactions</h2>
 {% regroup transactions by buyer as buyer_list %}
 {% for group in buyer_list %}
-    <h5>Seller: {{ group.grouper }}</h5>
+    <h5>Buyer: {{ group.grouper }}</h5>
     <ul>
         {% for transaction in group.list %}
         <li>

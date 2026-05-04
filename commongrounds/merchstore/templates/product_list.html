@@ -6,7 +6,7 @@
 
     <a href="{% url 'merchstore:product_create' %}">Add a New Product</a>
 
-    {% if user.is.authenticated and products_user %}
+    {% if user.is_authenticated and products_user %}
     <h5>Your Products</h5>
     <ul>
         {% for product in products_user %}
