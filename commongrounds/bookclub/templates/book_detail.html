@@ -12,6 +12,7 @@
     <p>Shared on {{ book.created_on }} by PLACEHOLDER</p>
     <!-- book.contributor doesnt work at the mo -->
     <p>Last updated on {{ book.updated_on }}</p>
+    <a href="{% url 'bookclub:book_edit' book.pk %}">Update Book</a>
     <h3>Thoughts?</h3>
     <form method="POST">
         {% csrf_token %}

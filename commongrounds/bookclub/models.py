@@ -39,7 +39,7 @@ class Book(models.Model):
         verbose_name_plural = "Books"
         ordering = ["-publication_year"]
 
-class BookReview(models.Model):
+class BookReview(models.Model): #TO-DO: Fix when logged in/not
     user_reviewer = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE) #set when logged in
     anon_reviewer = models.TextField(blank=False) #set when not logged in
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -51,7 +51,7 @@ class Bookmark(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     date_bookmarked = models.DateField()
 
-class Borrow(models.Model):
+class Borrow(models.Model): #TO-DO: Fix when logged in/not
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     borrower = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE) #set when logged in
     name = models.CharField() #set when not logged in

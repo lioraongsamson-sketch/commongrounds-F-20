@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Update "{{ book.title }}"</h3>
+
+    <form action="{% url 'bookclub:book_edit' book.pk %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" name="submit">Update</button>
+        <!-- <a href="{{ book.get_absolute.url }}">Cancel</a> -->
+    </form>
+
+    <h4>Current Book Info</h4>
+    <ul>
+        <li>Title: {{ book.title }}</li>
+        <li>Genre: {{ book.genre }}</li>
+        <li>Author: {{ book.author }}</li>
+        <li>Synopsis: {{ book.synopsis }}</li>
+        <li>Year Published: {{ book.publication_year }}</li>
+        <li>Available to borrow? {{ book.available_to_borrow }}</li>
+    </ul>
+
+    <a href="{% url 'bookclub:book_detail' book.pk %}">Go Back</a>
+
+{% endblock %}

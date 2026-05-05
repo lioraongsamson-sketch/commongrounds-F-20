@@ -7,6 +7,11 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = "__all__"
 
+class BookUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        exclude = ('contributor',)
+
 
 class BookReviewForm(forms.ModelForm):
     class Meta:
