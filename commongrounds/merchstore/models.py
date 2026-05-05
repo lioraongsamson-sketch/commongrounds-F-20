@@ -33,11 +33,11 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(null=True)
 
-    status_options = [('Available','Available'),('On sale','On sale'),
-                      ('Out of stock','Out of stock')]
+    status_options = [('Available', 'Available'), ('On sale', 'On sale'),
+                      ('Out of stock', 'Out of stock')]
     status = models.CharField(
-        choices = status_options,
-        default ='Available'
+        choices=status_options,
+        default='Available'
     )
 
     def save(self, *args, **kwargs):
@@ -54,11 +54,12 @@ class Product(models.Model):
     class Meta:
         ordering = ['name']
 
+
 class Transaction(models.Model):
     buyer = models.ForeignKey(
         'accounts.Profile',
         on_delete=models.SET_NULL,
-        null = True
+        null=True
     )
     product = models.ForeignKey(
         'Product',
@@ -67,10 +68,10 @@ class Transaction(models.Model):
     amount = models.PositiveIntegerField(
         validators=[MinValueValidator(1)]
     )
-    status_options = [('On cart','On cart'),('To Pay','To Pay'),
-                      ('To Ship','To Ship'),('To Receive','To Receive'),
-                      ('Delivered','Delivered')]
+    status_options = [('On cart', 'On cart'), ('To Pay', 'To Pay'),
+                      ('To Ship', 'To Ship'), ('To Receive', 'To Receive'),
+                      ('Delivered', 'Delivered')]
     status = models.CharField(
-        choices = status_options
+        choices=status_options
     )
     created_on = models.DateTimeField(auto_now_add=True)

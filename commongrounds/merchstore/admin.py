@@ -14,8 +14,10 @@ class ProductTypeAdmin(admin.ModelAdmin):
     model = ProductType
     inlines = [ProductIngredientInLine,]
 
+
 class TransactionAdmin(admin.ModelAdmin):
-    model = Transaction 
+    model = Transaction
+
 
 admin.site.register(ProductType, ProductTypeAdmin)
 admin.site.register(Product, ProductAdmin)
