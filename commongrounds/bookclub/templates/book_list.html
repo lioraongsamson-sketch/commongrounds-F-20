@@ -3,6 +3,9 @@
 {% block content %}
     <h3>Book Club</h3>
     <h4>Bookshelf</h4>
+
+    <a href="{% url 'bookclub:book_create' %}">Contribute a Book</a>
+
     <ul>
         {% for books in book_list %}
             <li>

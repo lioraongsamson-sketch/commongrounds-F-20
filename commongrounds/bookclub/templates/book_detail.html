@@ -2,6 +2,7 @@
 
 {% block content %}
     <h3>Book Club</h3>
+    
     <h3>{{ book.title }} ({{ book.publication_year }})</h3>
     <h4>By {{ book.author }}</h4>
     <p><b>Genre: </b>{{ book.genre }}</p>
@@ -9,7 +10,7 @@
     <p>{{ book.synopsis }}</p>
     <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
     <p>Shared on {{ book.created_on }} by PLACEHOLDER</p>
-    <!-- {{ book.contributor }} doesnt work at the mo -->
+    <!-- book.contributor doesnt work at the mo -->
     <p>Last updated on {{ book.updated_on }}</p>
     <h3>Thoughts?</h3>
     <form method="POST">

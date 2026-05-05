@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.mixins import RoleRequiredMixin
+from django.urls import reverse, reverse_lazy
 
 
 
@@ -31,7 +32,9 @@ class BookListView(ListView):
 
 class BookDetailView(DetailView):
     model = Book
+    form = BookReviewForm
     template_name = "book_detail.html"
+    #success_url = reverse_lazy('bookclub:book_detail')
     reviews = BookReview.objects.all()
     reviewgroups = Book.objects.all()
     ctx = {
@@ -51,25 +54,16 @@ class BookDetailView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-class BookCreateView(LoginRequiredMixin, CreateView):
+class BookCreateView(RoleRequiredMixin, CreateView):
     model = Book
+    form_class = BookForm
     template_name = "book_create.html"
-    redirect_field_name = "accounts/login"
+    success_url = reverse_lazy('bookclub:book_list')
+    required_role = "Book Contributor"
 
-    def test_func(self):
-        return self.request.user.groups.filter(name="Book Contributor").exists()
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["recipe"] = RecipeImageForm()
-    #     return context
-
-    # def post(self, request, *args, **kwargs):
-    #     form = RecipeImageForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         form.instance.recipe_id = self.kwargs["pk"]
-    #         form.save()
-    #         return redirect(self.get_success_url())
+    def form_valid(self, form):
+        form.instance.owner = self.request.user.profile
+        return super().form_valid(form)
 
 
 class BookUpdateView(LoginRequiredMixin, UpdateView):

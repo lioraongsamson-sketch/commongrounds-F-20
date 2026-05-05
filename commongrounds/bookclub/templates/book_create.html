@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Got a book to share?</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" name="submit" value="Contribute">
+    </form>
+
+    <a href="{% url 'bookclub:book_list' %}">I don't</a>
+    
+{% endblock %}
