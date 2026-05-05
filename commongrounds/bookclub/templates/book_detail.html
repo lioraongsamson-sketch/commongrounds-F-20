@@ -16,4 +16,12 @@
         {{ review }}
         <input type="submit" name="submit" value="Review!">
     </form>
+    <h4>Other people have thoughts too...</h4>
+    <ul>
+        {% for review in review_list %}
+            <li>
+                <p><b>{{ review.user_reviewer }}: {{review.comment }}</b></p>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
