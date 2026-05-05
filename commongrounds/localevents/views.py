@@ -1,6 +1,10 @@
 from .models import Event, EventSignup
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+from accounts.mixins import RoleRequiredMixin
+from .forms import EventForm
+from django.urls import reverse_lazy
 
 
 class EventListView(ListView):
@@ -24,3 +28,15 @@ class EventDetailView(DetailView):
 class EventSignup(DetailView):
     model = EventSignup
     template_name = "event_signup.html"
+
+
+class EventCreateView(RoleRequiredMixin, CreateView):
+    model = Event
+    form_class = EventForm
+    template_name = "event_create.html"
+    success_url = reverse_lazy('localevents:event_list')
+    required_role = "Event Organizer"
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user.profile
+        return super().form_valid(form)

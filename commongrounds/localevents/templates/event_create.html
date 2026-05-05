@@ -1,18 +1,12 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h3>Create a New Event</h3>
-    <h5>Fill out the fields below.</h5>
-    <form method="post">
+    <h3>Create New Event</h3>
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="event_name">
-            <span>Event Name</span>
-            <input type="text" id="event_name" name="event_name">
-        </label>
-        <label for="start_time">
-            <span>Task Due Date</span>
-            <input type="datetime" id="start_time" name="start_time">
-        </label>
-        <input type="submit" value="Submit">
+        {{ form }}
+        <input type="submit" name="submit" value="Save Form">
     </form>
+    <br>
+    <a href="{% url 'localevents:event_list' %}">Go Back</a>
 {% endblock %}

@@ -3,13 +3,40 @@
 {% block content %}
     <h3>Local Events</h3>
     <h5>Local Events List</h5>
+
+    <a href="{% url 'localevents:event_create' %}">Create Event</a>
+    <br>
+    <br>
+
+    {% if user.is_authenticated %} <!-- Removed the "and product_user" -->
+        <h5>Events Created</h5>
+        <ul>
+            {% for event in events_user %} 
+            <li>
+                <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <h5>Events Signed Up</h5>
+        <ul>
+            {% for event in events_user %} 
+            <li>
+                <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     {% for event in event_list %}
     <li>
         <a href = "{{ event.get_absolute_url }}">
             {{ event.title }}
         </a>
     </li>
+    {% empty %}
+        <li>No events avaliable</li>
     {% endfor %}
+
     <form method="post">
         {% csrf_token %}
         <label for="event_name">
@@ -23,3 +50,4 @@
         <input type="submit" value="Submit">
     </form>
 {% endblock %}
+
