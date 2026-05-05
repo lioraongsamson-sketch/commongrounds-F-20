@@ -3,8 +3,8 @@ from .forms import BookForm, BookReviewForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from accounts.mixins import RoleRequiredMixin
 
 
 
@@ -30,7 +30,6 @@ class BookListView(ListView):
 
 
 class BookDetailView(DetailView):
-    required_role = "Book Contributor"
     model = Book
     template_name = "book_detail.html"
     reviews = BookReview.objects.all()
@@ -52,7 +51,7 @@ class BookDetailView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     template_name = "book_create.html"
     redirect_field_name = "accounts/login"
@@ -60,9 +59,19 @@ class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.groups.filter(name="Book Contributor").exists()
 
-    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["recipe"] = RecipeImageForm()
+    #     return context
+
+    # def post(self, request, *args, **kwargs):
+    #     form = RecipeImageForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         form.instance.recipe_id = self.kwargs["pk"]
+    #         form.save()
+    #         return redirect(self.get_success_url())
 
 
-class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     template_name = "book_edit.html"

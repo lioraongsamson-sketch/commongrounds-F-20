@@ -8,7 +8,8 @@
     <h4>Synopsis</h4>
     <p>{{ book.synopsis }}</p>
     <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
-    <p>Shared on {{ book.created_on }} by {{ book.contributor }}</p>
+    <p>Shared on {{ book.created_on }} by PLACEHOLDER</p>
+    <!-- {{ book.contributor }} doesnt work at the mo -->
     <p>Last updated on {{ book.updated_on }}</p>
     <h3>Thoughts?</h3>
     <form method="POST">
@@ -20,7 +21,7 @@
     <ul>
         {% for review in review_list %}
             <li>
-                <p><b>{{ review.user_reviewer }}: {{review.comment }}</b></p>
+                <p><b>{{ review.user_reviewer }}: {{ review.comment }}</b></p>
             </li>
         {% endfor %}
     </ul>
