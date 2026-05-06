@@ -16,4 +16,4 @@ class BookUpdateForm(forms.ModelForm):
 class BookReviewForm(forms.ModelForm):
     class Meta:
         model = BookReview
-        fields = ["title", "comment"]
+        exclude = ('user_reviewer','anon_reviewer','book',)

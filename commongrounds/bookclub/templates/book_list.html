@@ -2,10 +2,38 @@
 
 {% block content %}
     <h3>Book Club</h3>
-    <h4>Bookshelf</h4>
 
+    {% if user.is_authenticated %}
+    <!-- and has book contributor role -->
     <a href="{% url 'bookclub:book_create' %}">Contribute a Book</a>
 
+        <h4>Books Contributed</h4>
+        <ul>
+            {% for books in books_user %}
+            <li>
+                <a href = "{{ books.get_absolute_url }}">
+                    {{ books.title }}
+                </a>
+            </li>
+            {% empty %}
+                <p>No books contributed.</p>
+            {% endfor %}
+        </ul>
+    <h4>My Bookmarks</h4>
+    <ul>
+        <li>
+            test
+        </li>
+    </ul>
+    <h4>My Reviews</h4>
+    <ul>
+        <li>
+            test
+        </li>
+    </ul>
+    {% endif %} 
+    
+    <h4>Bookshelf</h4>
     <ul>
         {% for books in book_list %}
             <li>

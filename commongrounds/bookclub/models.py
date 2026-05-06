@@ -40,11 +40,17 @@ class Book(models.Model):
         ordering = ["-publication_year"]
 
 class BookReview(models.Model): #TO-DO: Fix when logged in/not
-    user_reviewer = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE) #set when logged in
-    anon_reviewer = models.TextField(blank=False) #set when not logged in
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user_reviewer = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE, blank=True, null=True) #set when logged in
+    anon_reviewer = models.TextField(blank=True, null=True) #set when not logged in
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="reviews")
     title = models.CharField(blank=False)
     comment = models.TextField(blank=False)
+
+    def __str__(self):
+        if self.request.user.is_authenticated:
+            return f"Reviewed by {self.user_reviewer}"
+        else:
+            return f"Reviewed by Anonymous"
 
 class Bookmark(models.Model):
     profile = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)

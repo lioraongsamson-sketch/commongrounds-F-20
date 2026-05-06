@@ -11,19 +11,25 @@
     <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
     <p>Shared on {{ book.created_on }} by {{ book.contributor }}</p>
     <p>Last updated on {{ book.updated_on }}</p>
-    <a href="{% url 'bookclub:book_edit' book.pk %}">Update Book</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'bookclub:book_edit' book.pk %}">Update Book</a>
+    {% endif %}
+
+    <!-- TO-DO: fix user_reviewer + anon_reviewer -->
     <h3>Thoughts?</h3>
     <form method="POST">
         {% csrf_token %}
         {{ review }}
-        <input type="submit" name="submit" value="Review!">
+        <input type="submit" name="submit" value="Leave a Review">
     </form>
     <h4>Other people have thoughts too...</h4>
     <ul>
-        {% for review in review_list %}
+        {% for review in reviews %}
             <li>
-                <p><b>{{ review.user_reviewer }}: {{ review.comment }}</b></p>
+                <p><b>{{ review.title }}:</b> {{ review.comment }} <i>- {{ review.user_reviewer|default:"Anonymous" }}</i></p>
             </li>
+            {% empty %}
+            <p><i>or not... yet.</i></p>
         {% endfor %}
     </ul>
 {% endblock %}
