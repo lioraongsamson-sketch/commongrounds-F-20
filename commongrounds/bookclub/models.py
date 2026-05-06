@@ -63,3 +63,9 @@ class Borrow(models.Model): #TO-DO: Fix when logged in/not
     name = models.CharField() #set when not logged in
     date_borrowed = models.DateField()
     date_to_return = models.DateField()
+
+    def __str__(self):
+        if self.request.user.is_authenticated:
+            return f"Borrowed by {self.borrower}"
+        else:
+            return f"Borrowed by {self.name}"

@@ -1,17 +1,17 @@
-from .models import Book, BookReview
-from .forms import BookForm, BookUpdateForm, BookReviewForm
+from .models import Book, BookReview, Borrow, Bookmark
+from .forms import BookForm, BookUpdateForm, BookReviewForm, BookBorrowForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.mixins import RoleRequiredMixin
 from django.urls import reverse, reverse_lazy
-from django.shortcuts import redirect
 
 
 
 class BookListView(ListView):
     model = Book
+    context_object_name = "book"
     template_name = "book_list.html"
     
     # def get_context_data(self, **kwargs):
@@ -44,13 +44,16 @@ class BookDetailView(DetailView):
     
     def post(self, request, *args, **kwargs):
         book = self.get_object()
+        
+        #if self.request.user.is_authenticated:
+            
 
-        review = BookReviewForm(request.POST)
-        if review.is_valid():
-            r = review.save(commit=False)
-            r.user = request.user
-            r.book = book
-            r.save()
+        form = BookReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.book = book
+            review.save()
         return self.get(request, *args, **kwargs)
 
 
@@ -73,5 +76,18 @@ class BookUpdateView(RoleRequiredMixin, UpdateView):
     form_class = BookUpdateForm
 
     def form_valid(self, form):
-        book = form.save(commit=False)
+        form.save(commit=False)
         return super().form_valid(form)
+    
+
+class BookBorrowView(UpdateView):
+    model = Borrow
+    form_class = BookBorrowForm
+    template_name = "book_borrow.html"
+
+    def get_queryset(self):
+        queryset = Book.objects.all()
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        form = BookBorrowForm(request.POST)

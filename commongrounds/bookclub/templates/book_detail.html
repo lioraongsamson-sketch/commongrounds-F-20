@@ -9,6 +9,12 @@
     <h4>Synopsis</h4>
     <p>{{ book.synopsis }}</p>
     <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
+
+    <!-- TO-DO: make this only appear if available_to_borrow is true -->
+    {% if "True" %}
+        <a href="{% url 'bookclub:book_borrow' book.pk %}">Borrow this book</a>
+    {% endif %}
+
     <p>Shared on {{ book.created_on }} by {{ book.contributor }}</p>
     <p>Last updated on {{ book.updated_on }}</p>
     {% if user.is_authenticated %}
@@ -19,7 +25,7 @@
     <h3>Thoughts?</h3>
     <form method="POST">
         {% csrf_token %}
-        {{ review }}
+        {{ form }}
         <input type="submit" name="submit" value="Leave a Review">
     </form>
     <h4>Other people have thoughts too...</h4>
