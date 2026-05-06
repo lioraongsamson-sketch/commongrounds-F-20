@@ -1,0 +1,41 @@
+{% block content %}
+<h1>DIY Projects</h1>
+<h3>Create New Project</h3>
+
+<form method="post">
+    {% csrf_token %}
+
+    <p>
+        <label>Title:</label><br>
+        {{ form.title }}
+    </p>
+
+    <p>
+        <label>Category:</label><br>
+        {{ form.category }}
+    </p>
+
+    <p>
+        <label>Status:</label><br>
+        {{ form.status }}
+    </p>
+
+    <p>
+        <label>Description:</label><br>
+        {{ form.description }}
+    </p>
+
+    <p>
+        <label>Materials:</label><br>
+        {{ form.materials }}
+    </p>
+
+    <p>
+        <label>Steps:</label><br>
+        {{ form.steps }}
+    </p>
+
+    <button type="submit">Create Project</button>
+</form>
+
+{% endblock %}

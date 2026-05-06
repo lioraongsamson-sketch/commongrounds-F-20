@@ -1,10 +1,72 @@
 {% block content %}
     <h1>DIY Projects</h1>
     <h3>{{ project.title }}</h3>
+
     <p>{{ project.category }}</p>
+    <p>Status: {{ project.status }}</p>
+    <p> Description: </p>
     <p>{{ project.description }}</p>
     <p> Materials: </p>
     <p>{{ project.materials }}</p>
     <p> Steps: </p>
     <p>{{ project.steps }}</p>
+
+    <hr>
+
+    <h3> Average Rating: {{ average_rating|default:"No ratings yet" }} </h3>
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ rating_form.as_p }}
+            <button type="submit" name="rate">Submit Rating</button>
+        </form>
+    {% endif %}
+    
+    <hr>
+
+    <h3> Favorites: {{ favorites_count }} </h3>
+
+    {% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+
+        {% if user_has_favorited %}
+            <button disabled>Already Favorited</button>
+        {% else %}
+            <button type="submit" name="favorite">
+                Add to Favorites
+            </button>
+        {% endif %}
+
+    </form>
+    {% endif %}
+
+    <hr>
+
+    <h3> Reviews </h3>
+    {% for review in reviews %}
+        <p><strong>{{ review.reviewer }}</strong></p>
+        <p>{{ review.comment }}</p>
+
+        {% if review.image %}
+            <img src="{{ review.image.url }}" width="200">
+        {% endif %}
+        <hr>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <h3>Add Review</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <button type="submit" name="review">Submit Review</button>
+    </form>
+    {% endif %}
+
+    <hr>
+
+    {% if user.is_authenticated and project.creator == user.profile %}
+        <a href="{% url 'diyprojects:project_update' object.pk %}">Edit Project</a>
+    {% endif %}
+
 {% endblock %}
