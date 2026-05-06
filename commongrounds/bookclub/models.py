@@ -39,7 +39,7 @@ class Book(models.Model):
         verbose_name_plural = "Books"
         ordering = ["-publication_year"]
 
-class BookReview(models.Model): #TO-DO: Fix when logged in/not
+class BookReview(models.Model):
     user_reviewer = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE, blank=True, null=True) #set when logged in
     anon_reviewer = models.TextField(blank=True, null=True) #set when not logged in
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="reviews")

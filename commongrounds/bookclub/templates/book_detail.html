@@ -21,11 +21,10 @@
         <a href="{% url 'bookclub:book_edit' book.pk %}">Update Book</a>
     {% endif %}
 
-    <!-- TO-DO: fix user_reviewer + anon_reviewer -->
     <h3>Thoughts?</h3>
     <form method="POST">
         {% csrf_token %}
-        {{ form }}
+        {{ review }}
         <input type="submit" name="submit" value="Leave a Review">
     </form>
     <h4>Other people have thoughts too...</h4>

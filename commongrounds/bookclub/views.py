@@ -11,7 +11,6 @@ from django.urls import reverse, reverse_lazy
 
 class BookListView(ListView):
     model = Book
-    context_object_name = "book"
     template_name = "book_list.html"
     
     # def get_context_data(self, **kwargs):
@@ -44,15 +43,17 @@ class BookDetailView(DetailView):
     
     def post(self, request, *args, **kwargs):
         book = self.get_object()
-        
-        #if self.request.user.is_authenticated:
-            
 
         form = BookReviewForm(request.POST)
+
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
             review.book = book
+            if request.user.is_authenticated:
+                review.user_reviewer = request.user.profile
+            else:
+                review.anon_reviewer = "Anonymous"
             review.save()
         return self.get(request, *args, **kwargs)
 
