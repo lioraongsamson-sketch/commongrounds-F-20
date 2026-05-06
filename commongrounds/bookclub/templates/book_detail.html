@@ -9,8 +9,7 @@
     <h4>Synopsis</h4>
     <p>{{ book.synopsis }}</p>
     <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
-    <p>Shared on {{ book.created_on }} by PLACEHOLDER</p>
-    <!-- book.contributor doesnt work at the mo -->
+    <p>Shared on {{ book.created_on }} by {{ book.contributor }}</p>
     <p>Last updated on {{ book.updated_on }}</p>
     <a href="{% url 'bookclub:book_edit' book.pk %}">Update Book</a>
     <h3>Thoughts?</h3>

@@ -5,7 +5,7 @@ from .models import Book, BookReview
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = "__all__"
+        exclude = ('contributor',)
 
 class BookUpdateForm(forms.ModelForm):
     class Meta:

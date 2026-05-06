@@ -7,7 +7,7 @@
         {% csrf_token %}
         {{ form }}
         <button type="submit" name="submit">Update</button>
-        <!-- <a href="{{ book.get_absolute.url }}">Cancel</a> -->
+        <a href="{{ book.get_absolute.url }}">Revert Changes</a>
     </form>
 
     <h4>Current Book Info</h4>
