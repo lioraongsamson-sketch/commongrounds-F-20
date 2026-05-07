@@ -55,7 +55,7 @@ class Event(models.Model):
         return reverse('localevents:event_detail', args=[str(self.id)])
 
     def update_status(self):
-        if self.event_signup.count() >= self.event_capacity:
+        if EventSignup.objects.count() >= self.event_capacity:
             self.status = 'Full'
         elif self.status == 'Full':
             self.status = 'Available'

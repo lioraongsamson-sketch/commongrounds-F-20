@@ -24,7 +24,18 @@ class EventListView(ListView):
 class EventDetailView(DetailView):
     model = Event
     template_name = "event.html"
-    # group = Event.objects.get(id=1)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        localevent = self.get_object()
+        # context['signups'] = localevent.event_signup.all()
+        # context['signups'].add(self.request.user.profile)
+
+        # context = super().get_context_data(**kwargs)
+        # event = self.get_object()
+        # if self.request.user.is_authenticated:
+        #     event.signups.add(self.request.user.profile)
+        return context
 
 
 class EventSignup(DetailView):
