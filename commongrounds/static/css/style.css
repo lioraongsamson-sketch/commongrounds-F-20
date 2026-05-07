@@ -1,33 +1,100 @@
-body {
-    background-color: #242529;
+* {
+    background: #b33b69;
+    background: linear-gradient(0deg, rgba(179, 59, 105, 1) 0%, rgba(217, 146, 15, 1) 32%, rgba(124, 81, 133, 1) 65%, rgba(12, 7, 166, 1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color:white;
 }
 
-p {
+.up a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    padding: 0 0 0 0;
+    text-decoration: none;
+    text-align: center;
+}
+
+.ui_button {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: 20px;
+    padding: 0 0 0 20px;
+}
+
+.welcome {
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    text-shadow: 5px 5px 0 black;
+    transform: rotate(-3deg);
+    position:relative;
+    top:-20px;
+}
+
+.up {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 40px;
+    padding: 0;
+    text-align: center;
+}
+
+.log {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    position:relative;
+    top:-40px;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
 }
 
-a {
-    color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+.pw {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 1%;
 }
 
-h1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-  font-size: 40px;
-
+.upper_half {
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
 }
 
-h2 {
-    color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+.lower_half {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
 }
 
-.button {
-    color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-}
+

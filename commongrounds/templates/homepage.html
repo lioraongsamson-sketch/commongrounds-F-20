@@ -3,14 +3,41 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <p> Welcome to Commongrounds, {{ user.profile.display_name }}! </p>
-        <p> <a href="{{ user.profile.get_absolute_url }}"> Update Profile </a></p>
+        <p class="welcome"> Welcome to Commongrounds, {{ user.profile.display_name }}! </p>
     {% else %}
-        <p> Welcome to Commongrounds!</p>
+        <p class="welcome"> Welcome to Commongrounds!</p>
     {% endif %}
-    <li><a href="{% url 'merchstore:product_list' %}"> Merchandise Store </a></li>
-    <li><a href="{% url 'localevents:event_list' %}"> Local Events </a></li>
-    <li><a href="{% url 'bookclub:book_list' %}"> Book Club </a></li>
-    <li><a href="{% url 'diyprojects:project_list' %}"> DIY Projects </a></li>
-    <li><a href="{% url 'commissions:request_list' %}"> Commission Requests </a></li>
+    <div class="upper_half">
+        <a href="{% url 'merchstore:product_list' %}"> 
+            <figure>
+                <img src="https://picsum.photos/250/250">
+                <figcaption>Merchandise Store</figcaption>
+            </figure>
+        </a>
+        <a href="{% url 'localevents:event_list' %}">
+            <figure>
+                <img src="https://picsum.photos/250/250">
+                <figcaption>Local Events</figcaption>
+            </figure></a>
+        <a href="{% url 'bookclub:book_list' %}">
+            <figure>
+                <img src="https://picsum.photos/250/250">
+                <figcaption>Book Club</figcaption>
+            </figure>
+        </a>
+    </div>
+    <div class="lower_half">
+        <a href="{% url 'diyprojects:project_list' %}">
+            <figure>
+                <img src="https://picsum.photos/250/250">
+                <figcaption>DIY Projects</figcaption>
+            </figure></a>
+        <a href="{% url 'commissions:request_list' %}">
+            <figure>
+                <img src="https://picsum.photos/250/250">
+                <figcaption>Commission Requests</figcaption>
+            </figure></a>
+    </div>
+    
+    
 {% endblock %}

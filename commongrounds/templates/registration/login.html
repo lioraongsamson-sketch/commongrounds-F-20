@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block page_heading %} Login {% endblock %}
+{% block page_heading %} <h2 class="heading">Login</h2> {% endblock %}
 
 {% block content %}
+    <img src="css/images/tungtungsahur.png" width="100">
+    <div class="login">
         <form method="POST">
-            {% csrf_token %}
-            {{form.as_p}}
+        {% csrf_token %}
+            <div>
+                {{form.as_p}}
+            </div>
             <button type="submit">Login</button>
-        </form>
-        <a href="{% url 'password_reset' %}">Forgot password?</a>
+        </form> 
+    </div>
+    <a class="pw" href="{% url 'password_reset' %}">Forgot password?</a>
+    
+    
 {% endblock %}

@@ -12,18 +12,23 @@
     </head>
     <body>
         <header>
-            <h1> Common Grounds </h1>
-            {% if user.is_authenticated %}
-                <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit">Logout</button>
-                </form>
-            {% else %}
-                <button><a href="{% url 'login' %}">Login</a></button>
-            {% endif %}
+            <div class="up">
+                <h1><a href="{% url 'homepage' %}">Common Grounds</a></h1>
+            </div>
+            <div class="log">
+                {% if user.is_authenticated %}
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                            <button class="ui_button" type="submit">Logout</button>
+                            <button class="ui_button"><a href="{{ user.profile.get_absolute_url }}">Update Profile</a></button>
+                    </form>
+                {% else %}
+                        <button class="ui_button"><a href="{% url 'login' %}">Login</a></button>
+                {% endif %}
+            </div>
             <h2> {% block page_heading %} {% endblock %}</h2>
+            
         </header>
-        <hr>
         {% block content %}
         {% endblock %}
     </body>
