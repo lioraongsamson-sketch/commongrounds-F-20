@@ -1,10 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <p>Welcome, {{ user.profile.display_name }}!</p>
     <h1>Commission Requests</h1>
     <h2>Commission Details</h2>
+    <p><b>Creator: </b>{{ commission.maker }}</p>
     <p><b>Title: </b>{{ commission.title }}</p>
     <p><b>Description: </b>{{ commission.description }}</p>
     <p><b>People Required: </b>{{ commission.people_required }}</p>
+    
+    <h2>Jobs</h2>
+    {% for job in commission.job.all %}
+        <ul>
+            <li><b>{{ job.role }}</b>
+                <p>Manpower Required: {{ job.manpower_required }}</p>
+                <p>Accepted Applicants: {{ job.get_accepted_apps }}</p>
+            </li>
+
+            {% if user.is_authenticated %}
+                {% if commission.maker != request.user.profile %}
+                    <form method="POST" action="{% url 'commissions:request_detail' commission.pk %}">
+                        {% csrf_token %}
+                        <input name="applicant" value="{{ user.profile }}">
+                        {% if job.is_full %}
+                            <button type="submit" disabled>Apply to Job</button>
+                        {% else %}
+                            <button type="submit">Apply to Job</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+            {% endif %}
+        </ul>
+    {% endfor %}
+
+    <p>Total manpower: {{ total_manpower }}</p>
+    <p>Open manpower: {{ open_manpower }}</p>
+
+    {% if commission.maker == request.user.profile %}
+        <a href="{% url 'commissions:request_update' commission.pk %}"><p>Edit commission</p></a>
+    {% endif%}
+
+    
+    
+    
+    
+
     <p><a href="/commissions/requests">Home</a></p>
+
 {% endblock %}    

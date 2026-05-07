@@ -1,31 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <p>Welcome, {{ user.profile.display_name }}!</p>
     <h1>Commission Requests</h1>
     <h2>Commission List</h2>
+
     {% if user.is_authenticated %}
-        <ul>
-            <p>Welcome, {{ user.username }}!</p>
-            {% for commission in commission_list %}
-                {% if commission.maker == user.username %} 
-                    <li>
-                        <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
-                        <p>{{ commission.created_on }}</p>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+        <h3>Created Commissions</h3>
+        {% for commission in created_commissions %}
+            <li>
+                <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                <p>{{ commission.status }}</p>
+                <p>{{ commission.created_on }}</p>
+                <p>{{ commission.maker }}</p>
+            </li>
+        {% endfor %}
+        
+        <h3>Applied Commissions</h3>
+        {% for commission in applied_commissions %}
+            <li>
+                <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                <p>{{ commission.status }}</p>
+                <p>{{ commission.created_on }}</p>
+                <p>{{ commission.maker }}</p>
+            </li>
+        {% endfor %}
+
+        <h3>Commissions</h3>
+        {% for commission in remaining_commissions %}
+            <li>
+                <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                <p>{{ commission.status }}</p>
+                <p>{{ commission.created_on }}</p>
+                <p>{{ commission.maker }}</p>
+            </li>
+        {% endfor %}
+
     {% else %}
-        <p>{{ user.username }}</p>
-        <p>Created</p>
-        <ul>
-            {% for commission in commission_list %} 
-                <li>
-                    <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
-                    <p>{{ commission.created_on }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-        <p>Applied</p>
+        {% for commission in all_commissions %}
+            <li>
+                <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                <p>{{ commission.status }}</p>
+                <p>{{ commission.created_on }}</p>
+                <p>{{ commission.maker }}</p>
+            </li>
+        {% endfor %}
     {% endif %}
-{% endblock %}    
+    
+{% endblock %}  
