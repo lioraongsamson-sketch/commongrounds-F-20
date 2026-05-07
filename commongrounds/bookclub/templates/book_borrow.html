@@ -5,17 +5,17 @@
 
     <h4>Book Info</h4>
     <ul>
-        <li>Title: {{ book.title }}</li>
-        <li>Genre: {{ book.genre }}</li>
-        <li>Author: {{ book.author }}</li>
-        <li>Synopsis: {{ book.synopsis }}</li>
-        <li>Year Published: {{ book.publication_year }}</li>
+        <li><b>Title:</b> {{ book.title }}</li>
+        <li><b>Genre:</b> {{ book.genre }}</li>
+        <li><b>Author:</b> {{ book.author }}</li>
+        <li><b>Synopsis:</b> {{ book.synopsis }}</li>
+        <li><b>Year Published:</b> {{ book.publication_year }}</li>
     </ul>
 
     <form method="POST">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" name="submit" value="Borrow">
+        <button type="submit" name="submit">Borrow</button>
     </form>
 
 <a href="{% url 'bookclub:book_list' %}">I'm not borrowing</a>

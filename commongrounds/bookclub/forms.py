@@ -25,6 +25,6 @@ class BookBorrowForm(forms.ModelForm):
         fields = ['name', 'date_borrowed',]
         widgets ={
             'date_borrowed': forms.TextInput(
-                attrs={'type': 'datetime-local'}
+                attrs={'type': 'date'}
             )
         }

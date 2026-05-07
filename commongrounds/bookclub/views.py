@@ -6,6 +6,8 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.mixins import RoleRequiredMixin
 from django.urls import reverse, reverse_lazy
+from datetime import timedelta
+from django.shortcuts import redirect, render
 
 
 
@@ -101,3 +103,21 @@ class BookBorrowView(UpdateView):
 
     def post(self, request, *args, **kwargs):
         form = BookBorrowForm(request.POST)
+        book = self.get_object()
+
+        if form.is_valid():
+            date_borrowed = form.cleaned_data["date_borrowed"]
+            date_to_return = date_borrowed + timedelta(days=14)
+            
+            if request.user.is_authenticated:
+                Borrow.objects.create(book=book, borrower = request.user.profile, name = request.user.profile.display_name,
+                                      date_borrowed=date_borrowed, date_to_return=date_to_return)
+            else:
+                Borrow.objects.create(book=book, name = form.cleaned_data['name'],
+                                      date_borrowed=date_borrowed, date_to_return=date_to_return)
+            book.available_to_borrow = False
+            book.save()
+            return redirect('bookclub:book_detail', pk=book.pk)
+
+        return render(request, 'book_borrow.html', {'form': form, 'book': book})
+

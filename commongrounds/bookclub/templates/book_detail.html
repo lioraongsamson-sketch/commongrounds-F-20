@@ -3,6 +3,7 @@
 {% block content %}
     <h3>Book Club</h3>
     
+    <a href="{% url 'bookclub:book_list' %}">Go Back</a>
     <h3>{{ book.title }} ({{ book.publication_year }})</h3>
     <h4>By {{ book.author }}</h4>
     <p><b>Genre: </b>{{ book.genre }}</p>
@@ -10,8 +11,7 @@
     <p>{{ book.synopsis }}</p>
     <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
 
-    <!-- TO-DO: make this only appear if available_to_borrow is true -->
-    {% if "True" %}
+    {% if book.available_to_borrow %}
         <a href="{% url 'bookclub:book_borrow' book.pk %}">Borrow this book</a>
     {% endif %}
 
