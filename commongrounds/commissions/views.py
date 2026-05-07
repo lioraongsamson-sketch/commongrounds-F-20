@@ -26,7 +26,7 @@ class CommissionListView(ListView):
             ctx['remaining_commissions'] = Commission.objects.exclude(
                 job__job_application__applicant=pf).exclude(
                 maker=pf
-                ) 
+            )
         else:
             ctx['all_commissions'] = Commission.objects.all()
 
@@ -47,29 +47,28 @@ class CommissionDetailView(DetailView):
         mp = total_manpower['manpower_required__sum'] or 0
 
         accepted_signees = jobs.aggregate(
-            accepted=Sum('job_application', filter=Q(job_application__status='A'))
+            accepted=Sum('job_application', filter=Q(
+                job_application__status='A'))
         )['accepted'] or 0
-
 
         ctx['total_manpower'] = mp
         ctx['open_manpower'] = mp - accepted_signees
 
         return ctx
-    
+
     def post(self, request, *args, **kwargs):
         job_app = JobApplicationForm(request.POST)
         self.object = self.get_object()
 
         if job_app.is_valid():
             job_app.save()
-            return self.get(request, *args,**kwargs)
+            return self.get(request, *args, **kwargs)
 
         else:
             self.object_list = self.get_queryset()
             ctx = self.get_context_data(**kwargs)
             ctx['application'] = job_app
             return self.render_to_response(ctx)
-
 
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
@@ -90,8 +89,20 @@ class CommissionCreateView(LoginRequiredMixin, CreateView):
             return self.render_to_response(ctx)
 
 
-
-class CommissionUpdateView(UpdateView):
+class CommissionUpdateView(LoginRequiredMixin, UpdateView):
     model = Commission
     template_name = "request_form.html"
     fields = '__all__'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommissionForm(request.POST, instance=self.object)
+        if form.is_valid():
+            form.instance.maker = self.request.user.profile
+            form.save()
+            return self.get(request, *args, **kwargs)
+        else:
+            self.object_list = self.get_queryset(**kwargs)
+            ctx = self.get_context_data(**kwargs)
+            ctx['form'] = form
+            return self.render_to_response(ctx)
