@@ -7,8 +7,11 @@
     {% endif %}
     <h2>{{ event.title }} ({{ event.category }})</h2>
     <h4><strong>Event Organizers:</strong></h4>
-    <p>{{ event.organizer.name }}</p>
-    <h4>{{ event. }}</h4>
+    <ul>
+        {% for user in group.organizer.all %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
     <h4> {{ event.description }}</h4>
     <p><strong>Location:</strong> {{ event.location }}</p>
     <p><strong>Event Capacity:</strong> {{ event.event_capacity }}</p>
@@ -17,5 +20,10 @@
     <p><strong>End Time:</strong> {{ event.end_time }}</p>
     <p>Shared on {{ event.created_on }}</p>
     <p>Last updated on {{ event.updated_on }}</p>
-    <button type="button">Sign Up</button>
+
+    {% if request.user.profile == event.organizer %}
+        <a href="{% url 'localevents:event_update' event.pk %}">Update Event</a>
+    {% else %}
+        <button type="button">Sign Up</button>
+    {% endif %}
 {% endblock %}

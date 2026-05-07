@@ -26,7 +26,7 @@ class Event(models.Model):
     )
 
     organizer = models.ManyToManyField(
-        Profile,
+        'accounts.Profile',
         related_name='organizer'
     )
     # https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/Models
@@ -39,6 +39,7 @@ class Event(models.Model):
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
     event_capacity = models.PositiveIntegerField(null=True)
+    event_signups = models.IntegerField(default=0)
     status_options = [("Available", "Available"), ("Full", "Full"),
                       ("Done", "Done"), ("Cancelled", "Cancelled")]
     # From: https://forum.djangoproject.com/t/django-choices-design/9945
