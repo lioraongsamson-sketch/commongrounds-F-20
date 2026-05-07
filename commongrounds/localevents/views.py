@@ -1,9 +1,9 @@
 from .models import Event, EventSignup
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from accounts.mixins import RoleRequiredMixin
-from .forms import EventForm
+from .forms import EventForm, EventUpdateForm
 from django.urls import reverse_lazy
 
 
@@ -23,6 +23,7 @@ class EventListView(ListView):
 class EventDetailView(DetailView):
     model = Event
     template_name = "event.html"
+    # group = Event.objects.get(id=1)
 
 
 class EventSignup(DetailView):
@@ -38,5 +39,25 @@ class EventCreateView(RoleRequiredMixin, CreateView):
     required_role = "Event Organizer"
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user.profile
+        instance = Event.objects.get(pk=1)
+
+        instance.organizer.add(
+            self.request.user.profile
+        )
+
         return super().form_valid(form)
+
+
+class EventUpdateView(RoleRequiredMixin, UpdateView):
+    model = Event
+    form_class = EventUpdateForm
+    template_name = "event_update.html"
+    required_role = "Event Organizer"
+
+    # def form_valid(self, form):
+    #     event = form.save(commit=False)
+    #     if event.event_signups >= event.event_capacity:
+    #         event.status = 'Full'
+    #     else:
+    #         event.status = 'Available'
+    #     return super().form_valid(form)

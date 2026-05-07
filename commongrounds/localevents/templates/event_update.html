@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Update Event: {{ event.title }}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" name="submit">Save Updates</button>
+    <a href="{{ event.get_absolute.url }}">Cancel</a>
+</form>
+
+<h3>Current Event Info:</h3>
+<ul>
+    <li>Organizers: {{ event.organizer.name }}</li>
+    <li>Status: {{ event.status }}</li>
+</ul>
+
+<br>
+<a href="{% url 'localevents:event_detail' event.pk %}">Go Back</a>
+{% endblock %}

@@ -22,12 +22,14 @@ class Event(models.Model):
         EventType,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='event'
+        related_name='event',
+        blank=True,
     )
 
     organizer = models.ManyToManyField(
-        Profile,
-        related_name='organizer'
+        'accounts.Profile',
+        related_name='organizer',
+        blank=True,
     )
     # https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/Models
     # Doesn't have the on delete to null cause this doesn't support it...
@@ -39,10 +41,10 @@ class Event(models.Model):
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
     event_capacity = models.PositiveIntegerField(null=True)
-    status_options = [("Available", "Available"), ("Full", "Full"),
+    STATUS_OPTIONS = [("Available", "Available"), ("Full", "Full"),
                       ("Done", "Done"), ("Cancelled", "Cancelled")]
     # From: https://forum.djangoproject.com/t/django-choices-design/9945
-    status = models.CharField(choices=status_options, null=True)
+    status = models.CharField(choices=STATUS_OPTIONS, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -57,12 +59,27 @@ class Event(models.Model):
         verbose_name_plural = 'Events'
         ordering = ['-created_on']
 
+    @property
+    def signup_count(self):
+        return self.event_signup.count()
+
+    @property
+    def is_full(self):
+        return self.signup_count >= self.event_capacity
+
+    def save(self, *args, **kwargs):
+        if self.is_full:
+            self.status = 'Full'
+        elif self.status == 'Full':
+            self.status = 'Available'
+
+        super().save(*args, **kwargs)
+
 
 class EventSignup(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
-        null=True,
         related_name='event_signup'  # Recheck how to properly name this
     )
 
@@ -71,9 +88,13 @@ class EventSignup(models.Model):
     # new_registrant = charfield, set when registrant is not logged in
 
     user_registrant = models.ForeignKey(
-        Profile,
+        'accounts.Profile',
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='user_signups',
     )
-    new_registrant = models.CharField()
+
+    new_registrant = models.CharField(blank=True)
 
     # if request.user.is_authenticated: https://stackoverflow.com/questions/3644902/how-to-check-if-a-user-is-logged-in-how-to-properly-use-user-is-authenticated
