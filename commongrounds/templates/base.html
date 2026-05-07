@@ -1,19 +1,25 @@
+{% load static %}
+
 <!DOCTYPE html>
 
 <html>
     <head>
-        <title>Commongrounds</title>
+        <title>Common Grounds</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
     </head>
     <body>
         <header>
-            <h1> Commongrounds </h1>
+            <h1> Common Grounds </h1>
             {% if user.is_authenticated %}
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
                 </form>
             {% else %}
-                <a href="{% url 'login' %}">Login</a>
+                <button><a href="{% url 'login' %}">Login</a></button>
             {% endif %}
             <h2> {% block page_heading %} {% endblock %}</h2>
         </header>

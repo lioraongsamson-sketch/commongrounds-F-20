@@ -1,0 +1,33 @@
+body {
+    background-color: #242529;
+}
+
+p {
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+}
+
+a {
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+  font-size: 40px;
+
+}
+
+h2 {
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+}
+
+.button {
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+}

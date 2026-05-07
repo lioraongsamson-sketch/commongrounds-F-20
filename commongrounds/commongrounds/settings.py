@@ -29,7 +29,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["commongrounds-f-20-production.up.railway.app"]
+ALLOWED_HOSTS = []
+# "commongrounds-f-20-production.up.railway.app"
 
 
 # Application definition
@@ -128,3 +129,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
