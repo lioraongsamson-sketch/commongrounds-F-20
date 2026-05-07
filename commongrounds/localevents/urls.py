@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import EventListView, EventDetailView, EventSignup, EventCreateView, EventUpdateView
+from .views import EventListView, EventDetailView, EventSignupView, EventCreateView, EventUpdateView
 
 app_name = 'localevents'
 
@@ -14,7 +14,7 @@ urlpatterns = [
     ),
     path(
         'event/<int:pk>/signup',
-        EventSignup.as_view(),
+        EventSignupView.as_view(),
         name='event_signup'
     )
 ]

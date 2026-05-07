@@ -3,7 +3,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from accounts.mixins import RoleRequiredMixin
-from .forms import EventForm, EventUpdateForm
+from .forms import EventForm, EventUpdateForm, EventSignupForm
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 
@@ -28,7 +28,7 @@ class EventDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         localevent = self.get_object()
-        # context['signups'] = localevent.event_signup.all()
+        context['signups'] = localevent.event_signup.all()
         # context['signups'].add(self.request.user.profile)
 
         # context = super().get_context_data(**kwargs)
@@ -37,10 +37,30 @@ class EventDetailView(DetailView):
         #     event.signups.add(self.request.user.profile)
         return context
 
+    def post(self, request, *args, **kwargs):
+        this_event = self.get_object()
 
-class EventSignup(DetailView):
+        if not request.user.is_authenticated:
+            return redirect('localevents:event_signup', pk=this_event.pk)
+
+        EventSignup.objects.create(
+            event=this_event,
+            user_registrant=request.user.profile
+        )
+        this_event.update_status()
+        this_event.save()
+        return redirect('localevents:event_list')
+
+
+class EventSignupView(DetailView):
     model = EventSignup
+    form_class = EventSignupForm
     template_name = "event_signup.html"
+
+    def form_valid(self, form):
+        saved_signup = form.save(commit=False)
+        saved_signup.save()
+        return redirect('localevents:event_list')
 
 
 class EventCreateView(RoleRequiredMixin, CreateView):

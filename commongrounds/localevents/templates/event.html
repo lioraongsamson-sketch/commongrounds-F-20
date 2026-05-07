@@ -26,8 +26,6 @@
         <a href="{% url 'localevents:event_update' event.pk %}">Update Event</a>
     {% elif event.status == "Full" %}
         <button disabled>Full Slots!</button>
-    {% elif request.user.profile in signups.all %}
-        <button disabled>Successfully Signed Up</button>
     {% else %}
         <form method="post">
             {% csrf_token %}

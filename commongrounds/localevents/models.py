@@ -55,7 +55,7 @@ class Event(models.Model):
         return reverse('localevents:event_detail', args=[str(self.id)])
 
     def update_status(self):
-        if EventSignup.objects.count() >= self.event_capacity:
+        if self.event_signup.count() >= self.event_capacity:
             self.status = 'Full'
         elif self.status == 'Full':
             self.status = 'Available'
@@ -85,7 +85,7 @@ class EventSignup(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='event_signup',
+        related_name='user_event_signup',
     )
 
     new_registrant = models.CharField(blank=True)

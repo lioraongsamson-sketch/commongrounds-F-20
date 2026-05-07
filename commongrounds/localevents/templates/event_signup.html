@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <a href="{% url 'localevents:event_list' %}">Return to Events</a>    
     <h3>Local Events</h3>
+
     {% if object.event_image %}
         <img src="{{ object.event_image.url }}" alt="">
     {% endif %}
     <h2>{{ event.title }} ({{ event.category }})</h2>
     <h4><strong>Event Organizers:</strong></h4>
-    <p>{{ event.organizer.name }}</p>
-    <h4>{{ event. }}</h4>
+    {% for user in event.organizer.all %}
+        <h3>{{ user }}</h3>
+    {% endfor %}
+
     <h4> {{ event.description }}</h4>
     <p><strong>Location:</strong> {{ event.location }}</p>
     <p><strong>Event Capacity:</strong> {{ event.event_capacity }}</p>
@@ -17,8 +21,8 @@
     <p><strong>End Time:</strong> {{ event.end_time }}</p>
     <p>Shared on {{ event.created_on }}</p>
     <p>Last updated on {{ event.updated_on }}</p>
-    <p>Quick Difference Test</p>
-    <form>
+
+    <form method="post">
         {% csrf_token %}
         <label for="user_name">
             <span>Please Enter Your Name</span>
