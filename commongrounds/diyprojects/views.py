@@ -93,6 +93,11 @@ class ProjectCreateView(RoleRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user.profile
         return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class ProjectUpdateView(RoleRequiredMixin, UpdateView):
