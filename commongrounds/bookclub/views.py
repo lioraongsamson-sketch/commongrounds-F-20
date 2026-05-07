@@ -67,6 +67,7 @@ class BookDetailView(DetailView):
             context["bookmarked"] = Bookmark.objects.filter(
                 book=book, profile=user.profile
             ).exists()
+            context["is_contributor"] = user.profile == book.contributor
 
         return context
 

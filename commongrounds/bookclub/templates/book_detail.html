@@ -36,7 +36,7 @@
     <p>Shared on {{ book.created_on }} by {{ book.contributor }}</p>
     <p>Last updated on {{ book.updated_on }}</p>
 
-    {% if user.is_authenticated %}
+    {% if is_contributor %}
         <a href="{% url 'bookclub:book_edit' book.pk %}">Update Book</a>
     {% endif %}
 
