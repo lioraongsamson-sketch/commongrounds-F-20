@@ -48,7 +48,6 @@ class BookDetailView(DetailView):
 
         if form.is_valid():
             review = form.save(commit=False)
-            review.user = request.user
             review.book = book
             if request.user.is_authenticated:
                 review.user_reviewer = request.user.profile
