@@ -28,7 +28,7 @@ class Event(models.Model):
 
     organizer = models.ManyToManyField(
         'accounts.Profile',
-        related_name='organizer',
+        related_name='organized_event',
         blank=True,
     )
     # https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/Models
@@ -54,32 +54,25 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('localevents:event_detail', args=[str(self.id)])
 
+    def update_status(self):
+        if self.event_signup.count() >= self.event_capacity:
+            self.status = 'Full'
+        elif self.status == 'Full':
+            self.status = 'Available'
+        self.save()
+
     class Meta:
         verbose_name = 'Event'
         verbose_name_plural = 'Events'
         ordering = ['-created_on']
-
-    @property
-    def signup_count(self):
-        return self.event_signup.count()
-
-    @property
-    def is_full(self):
-        return self.signup_count >= self.event_capacity
-
-    def save(self, *args, **kwargs):
-        if self.is_full:
-            self.status = 'Full'
-        elif self.status == 'Full':
-            self.status = 'Available'
-
-        super().save(*args, **kwargs)
 
 
 class EventSignup(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         related_name='event_signup'  # Recheck how to properly name this
     )
 
@@ -92,7 +85,7 @@ class EventSignup(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='user_signups',
+        related_name='event_signup',
     )
 
     new_registrant = models.CharField(blank=True)

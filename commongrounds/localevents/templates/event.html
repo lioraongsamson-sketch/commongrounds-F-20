@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <a href="{% url 'localevents:event_list' %}">Return to List of Events</a>    
     <h3>Local Events</h3>
+
     {% if object.event_image %}
         <img src="{{ object.event_image.url }}" alt="">
     {% endif %}
     <h2>{{ event.title }} ({{ event.category }})</h2>
     <h4><strong>Event Organizers:</strong></h4>
-    <ul>
-        {% for user in group.organizer.all %}
-            <li>{{ user.username }}</li>
-        {% endfor %}
-    </ul>
+    {% for user in event.organizer.all %}
+        <h3>{{ user }}</h3>
+    {% endfor %}
+    
     <h4> {{ event.description }}</h4>
     <p><strong>Location:</strong> {{ event.location }}</p>
     <p><strong>Event Capacity:</strong> {{ event.event_capacity }}</p>
@@ -20,8 +21,11 @@
     <p><strong>End Time:</strong> {{ event.end_time }}</p>
     <p>Shared on {{ event.created_on }}</p>
     <p>Last updated on {{ event.updated_on }}</p>
-    {% if request.user.profile == event.organizer %}
+
+    {% if request.user.profile in event.organizer.all %}
         <a href="{% url 'localevents:event_update' event.pk %}">Update Event</a>
+    {% elif event.status == "Full" %}
+        <button type="button">Full Slots!</button>
     {% else %}
         <button type="button">Sign Up</button>
     {% endif %}

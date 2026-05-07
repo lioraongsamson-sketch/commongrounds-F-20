@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Local Events</h3>
-    <h5>Local Events List</h5>
+    <h1>Local Events</h1>
 
     <a href="{% url 'localevents:event_create' %}">Create Event</a>
     <br>
     <br>
 
     {% if user.is_authenticated %} <!-- Removed the "and product_user" -->
-        <h5>Events Created</h5>
+        <h3>Events Created</h3>
         <ul>
             {% for event in events_user %} 
             <li>
@@ -17,7 +16,7 @@
             </li>
             {% endfor %}
         </ul>
-        <h5>Events Signed Up</h5>
+        <h3>Events Signed Up</h3>
         <ul>
             {% for event in events_user %} 
             <li>
@@ -26,28 +25,18 @@
             {% endfor %}
         </ul>
     {% endif %}
-
+    
+    <h3>Local Events List</h3>
     {% for event in event_list %}
-    <li>
-        <a href = "{{ event.get_absolute_url }}">
-            {{ event.title }}
-        </a>
-    </li>
+    <ul>
+        <li>
+            <a href = "{{ event.get_absolute_url }}">
+                {{ event.title }}
+            </a>
+        </li>
+    </ul>
     {% empty %}
         <li>No events avaliable</li>
     {% endfor %}
-
-    <form method="post">
-        {% csrf_token %}
-        <label for="event_name">
-            <span>Event Name</span>
-            <input type="text" id="event_name" name="event_name">
-        </label>
-        <label for="start_time">
-            <span>Task Due Date</span>
-            <input type="datetime" id="start_time" name="start_time">
-        </label>
-        <input type="submit" value="Submit">
-    </form>
 {% endblock %}
 

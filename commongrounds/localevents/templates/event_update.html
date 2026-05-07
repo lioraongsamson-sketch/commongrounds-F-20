@@ -6,16 +6,9 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
+    <br>
     <button type="submit" name="submit">Save Updates</button>
-    <a href="{{ event.get_absolute.url }}">Cancel</a>
 </form>
-
-<h3>Current Event Info:</h3>
-<ul>
-    <li>Organizers: {{ event.organizer.name }}</li>
-    <li>Status: {{ event.status }}</li>
-</ul>
-
 <br>
-<a href="{% url 'localevents:event_detail' event.pk %}">Go Back</a>
+<a href="{% url 'localevents:event_detail' event.pk %}">Cancel Changes</a>
 {% endblock %}

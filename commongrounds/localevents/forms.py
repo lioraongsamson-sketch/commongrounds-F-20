@@ -5,7 +5,7 @@ from .models import Event
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'category', 'event_image', 'description',
+        fields = ['title', 'category', 'organizer', 'event_image', 'description',
                   'location', 'start_time', 'end_time', 'event_capacity', 'status']
         widgets = {
             'start_time': forms.TextInput(
@@ -13,9 +13,9 @@ class EventForm(forms.ModelForm):
             ),
             'end_time': forms.TextInput(
                 attrs={'type': 'datetime-local'}
-            )
+            ),
+            'organizer': forms.Select(attrs={'disabled': 'disabled'}),
         }
-        exclude = ['organizer',]
 
 
 class EventUpdateForm(forms.ModelForm):
