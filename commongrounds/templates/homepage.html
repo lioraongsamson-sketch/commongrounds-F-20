@@ -2,7 +2,8 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <p> Welcome to Commongrounds, {{ user.username }}! </p>
+        <p> Welcome to Commongrounds, {{ user.profile.display_name }}! </p>
+        <p> <a href="{{ user.profile.get_absolute_url }}"> Update Profile </a></p>
     {% else %}
         <p> Welcome to Commongrounds!</p>
     {% endif %}
