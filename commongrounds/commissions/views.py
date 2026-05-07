@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Commission, Job
 from django.db.models import Sum, Q
-from .forms import JobApplicationForm
+from .forms import JobApplicationForm, CommissionForm
 
 
 # STATUSES = [('O', 'Open'), ('F', 'Full'),('C', 'Completed'), ('D', 'Discontinued')]
@@ -72,10 +72,23 @@ class CommissionDetailView(DetailView):
 
 
 
-class CommissionCreateView(CreateView):
+class CommissionCreateView(LoginRequiredMixin, CreateView):
     model = Commission
-    template_name = "request_detail.html"
-    fields = '__all__'
+    template_name = "request_form.html"
+    form_class = CommissionForm
+
+    def post(self, request, *args, **kwargs):
+        form = CommissionForm(request.POST)
+        if form.is_valid():
+            form.instance.maker = self.request.user.profile
+            form.save()
+            return self.get(request, *args, **kwargs)
+        else:
+            self.object_list = self.get_queryset(**kwargs)
+            ctx = self.get_context_data(**kwargs)
+            ctx['form'] = form
+            return self.render_to_response(ctx)
+
 
 
 class CommissionUpdateView(UpdateView):
