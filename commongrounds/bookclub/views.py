@@ -7,7 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.mixins import RoleRequiredMixin
 from django.urls import reverse, reverse_lazy
 from datetime import timedelta
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
+from django.utils import timezone
 
 
 
@@ -49,13 +50,32 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book = self.get_object()
+        user = self.request.user
+
+        #for reviews
         context["review"] = BookReviewForm()
         context["reviews"] = book.reviews.all()
+
+        #for bookmarks
+        context["bookmark_count"] = Bookmark.objects.filter(book=book).count()
+        context["bookmarked"] = Bookmark.objects.filter(book=book, profile=user.profile).exists()
+
         return context
     
     def post(self, request, *args, **kwargs):
         book = self.get_object()
 
+        #for bookmarks
+        if request.POST.get('to_bookmark') == 'bookmark':
+            bookmarked_book = Bookmark.objects.filter(book=book, profile=self.request.user.profile)
+
+            if bookmarked_book.exists():
+                bookmarked_book.delete()
+            else:
+                Bookmark.objects.create(book=book, profile=self.request.user.profile, date_bookmarked=timezone.now())
+            return redirect('bookclub:book_detail', pk=book.pk)
+
+        #for reviews
         form = BookReviewForm(request.POST)
 
         if form.is_valid():
@@ -66,6 +86,8 @@ class BookDetailView(DetailView):
             else:
                 review.anon_reviewer = "Anonymous"
             review.save()
+            
+
         return self.get(request, *args, **kwargs)
 
 
@@ -117,7 +139,8 @@ class BookBorrowView(UpdateView):
                                       date_borrowed=date_borrowed, date_to_return=date_to_return)
             book.available_to_borrow = False
             book.save()
+
             return redirect('bookclub:book_detail', pk=book.pk)
 
-        return render(request, 'book_borrow.html', {'form': form, 'book': book})
+        return self.get(request, *args, **kwargs)
 

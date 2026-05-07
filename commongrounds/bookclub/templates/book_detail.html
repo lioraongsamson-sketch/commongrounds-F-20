@@ -14,9 +14,23 @@
     {% if book.available_to_borrow %}
         <a href="{% url 'bookclub:book_borrow' book.pk %}">Borrow this book</a>
     {% endif %}
+    
+        <p><b>{% if bookmark_count == 0 %}No Bookmarks
+              {% elif bookmark_count == 1 %}{{ bookmark_count }} Bookmark
+              {% else %}{{ bookmark_count }} Bookmarks{% endif %}</b></p>
+        <form method="POST">
+            <button type="submit" name="to_bookmark" value="bookmark">
+                {% csrf_token %}
+                {% if bookmarked %}Bookmarked
+                {% else %}Bookmark
+                {% endif %}
+            </button>
+        </form>
+     
 
     <p>Shared on {{ book.created_on }} by {{ book.contributor }}</p>
     <p>Last updated on {{ book.updated_on }}</p>
+
     {% if user.is_authenticated %}
         <a href="{% url 'bookclub:book_edit' book.pk %}">Update Book</a>
     {% endif %}

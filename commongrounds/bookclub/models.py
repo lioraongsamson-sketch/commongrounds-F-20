@@ -55,7 +55,7 @@ class BookReview(models.Model):
 class Bookmark(models.Model):
     profile = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    date_bookmarked = models.DateField()
+    date_bookmarked = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.profile} bookmarked {self.book} on {self.date_bookmarked}"
