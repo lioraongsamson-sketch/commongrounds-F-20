@@ -15,7 +15,7 @@ class CommissionType(models.Model):
 
 
 class Commission(models.Model):
-    STATUSES = [('O', 'Open'), ('F', 'Full')]
+    STATUSES = [('OPEN', 'Open'), ('FULL', 'Full')]
 
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -43,11 +43,11 @@ class Commission(models.Model):
         return reverse('commissions:request_detail', args=[str(self.id)])
 
     class Meta:
-        ordering = ["created_on"]
+        ordering = ["-status", "-created_on"]
 
 
 class Job(models.Model):
-    STATUSES = [('O', 'Open'), ('F', 'Full')]
+    STATUSES = [('OPEN', 'Open'), ('FULL', 'Full')]
     commission = models.ForeignKey(
         Commission,
         on_delete=models.CASCADE,
@@ -60,10 +60,10 @@ class Job(models.Model):
 
     def __str__(self):
         return str(self.commission.title + ": " + self.role)
-    
+
     def get_accepted_apps(self):
-        return self.job_application.filter(status=JobApplication.STATUSES[1][0]).count()
-    
+        return self.applications.filter(status=JobApplication.STATUSES[1][0]).count()
+
     def is_full(self):
         return self.get_accepted_apps() >= self.manpower_required
 
@@ -72,18 +72,19 @@ class Job(models.Model):
 
 
 class JobApplication(models.Model):
-    STATUSES = [('P', 'Pending'), ('A', 'Accepted'), ('R', 'Rejected')]
+    STATUSES = [('PENDING', 'Pending'), ('ACCEPTED',
+                                         'Accepted'), ('REJECTED', 'Rejected')]
     job = models.ForeignKey(
         Job,
         on_delete=models.CASCADE,
         null=True,
-        related_name='job_application'
+        related_name='applications'
     )
     applicant = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
         null=True,
-        related_name='job_application'
+        related_name='applications'
     )
     status = models.CharField(choices=STATUSES, default=STATUSES[0])
     applied_on = models.DateTimeField(auto_now_add=True)

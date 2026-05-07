@@ -4,7 +4,11 @@ from .models import JobApplication, Commission
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = ['applicant']
+        fields = ['job', 'applicant']
+        widgets = {
+            'job': forms.HiddenInput(),
+            'applicant': forms.HiddenInput(),
+        }
 
 class CommissionForm(forms.ModelForm):
     class Meta:

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Commission Form</h2>
+    <h2>{{ previous }} Commission</h2>
 
     <form method="POST">
         {% csrf_token %}

@@ -8,32 +8,44 @@
     {% if user.is_authenticated %}
         <h3>Created Commissions</h3>
         {% for commission in created_commissions %}
+        <ul>
             <li>
                 <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
                 <p>{{ commission.status }}</p>
                 <p>{{ commission.created_on }}</p>
                 <p>{{ commission.maker }}</p>
             </li>
+        </ul>
+        {% empty %}
+            <p>You have not created any commissions.</p>
         {% endfor %}
         
         <h3>Applied Commissions</h3>
         {% for commission in applied_commissions %}
-            <li>
-                <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
-                <p>{{ commission.status }}</p>
-                <p>{{ commission.created_on }}</p>
-                <p>{{ commission.maker }}</p>
-            </li>
+            <ul>
+                <li>
+                    <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                    <p>{{ commission.status }}</p>
+                    <p>{{ commission.created_on }}</p>
+                    <p>{{ commission.maker }}</p>
+                </li>
+            </ul>
+        {% empty %}
+            <p>You have not applied to any commissions.</p>
         {% endfor %}
 
         <h3>Commissions</h3>
         {% for commission in remaining_commissions %}
-            <li>
-                <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
-                <p>{{ commission.status }}</p>
-                <p>{{ commission.created_on }}</p>
-                <p>{{ commission.maker }}</p>
-            </li>
+            <ul>
+                <li>
+                    <a href="{{ commission.get_absolute_url }}"><b>{{ commission.title }}</b></a>
+                    <p>{{ commission.status }}</p>
+                    <p>{{ commission.created_on }}</p>
+                    <p>{{ commission.maker }}</p>
+                </li>
+            </ul>
+        {% empty %}
+            <p>There are no listed commissions.</p>
         {% endfor %}
 
     {% else %}
@@ -44,6 +56,8 @@
                 <p>{{ commission.created_on }}</p>
                 <p>{{ commission.maker }}</p>
             </li>
+        {% empty %}
+            <p>There are no listed commissions.</p>
         {% endfor %}
     {% endif %}
 
