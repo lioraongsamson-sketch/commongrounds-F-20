@@ -5,7 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from .models import Commission, Job
 from django.db.models import Sum, Q
-from .forms import JobApplicationForm, CommissionForm
+from .forms import JobApplicationForm, CommissionForm, JobFormSet
+from accounts.mixins import RoleRequiredMixin
 
 
 class CommissionListView(ListView):
@@ -67,58 +68,73 @@ class CommissionDetailView(DetailView):
             return self.render_to_response(ctx)
 
 
-class CommissionCreateView(LoginRequiredMixin, CreateView):
+class CommissionCreateView(RoleRequiredMixin, LoginRequiredMixin, CreateView):
     model = Commission
     template_name = "request_form.html"
     form_class = CommissionForm
+    required_role = "Commission Maker"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['previous'] = 'Create a'
+        if 'job_formset' not in ctx:
+            ctx['job_formset'] = JobFormSet()
+        print(str("HELLO") + str(ctx['job_formset']))
         return ctx
 
     def post(self, request, *args, **kwargs):
+        self.object = None
         form = CommissionForm(request.POST)
-        if form.is_valid():
-            form.instance.maker = self.request.user.profile
-            form.save()
-            return self.get(request, *args, **kwargs)
+        job_formset = JobFormSet(request.POST)
+
+        if form.is_valid() and job_formset.is_valid():
+            commission = form.save(commit=False)
+            commission.maker = self.request.user.profile
+            commission.save()
+            job_formset.instance = commission
+            job_formset.save()
+            return redirect(form.instance.get_absolute_url())
         else:
-            self.object_list = self.get_queryset(**kwargs)
             ctx = self.get_context_data(**kwargs)
             ctx['form'] = form
+            ctx['job_formset'] = job_formset
             return self.render_to_response(ctx)
 
 
-class CommissionUpdateView(LoginRequiredMixin, UpdateView):
+class CommissionUpdateView(RoleRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Commission
     template_name = "request_form.html"
-    fields = '__all__'
+    form_class = CommissionForm
+    required_role = "Commission Maker"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['previous'] = 'Update your'
+        if 'job_formset' not in ctx:
+            ctx['job_formset'] = JobFormSet(instance=self.object)
         return ctx
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = CommissionForm(request.POST, instance=self.object)
-        if form.is_valid():
+        job_formset = JobFormSet(request.POST, instance=self.object)
+
+        if form.is_valid() and job_formset.is_valid():
             form.instance.maker = self.request.user.profile
-            form.save()
+            commission = form.save()
 
-            jobs = form.instance.job.all()
-            all_jobs_full = all(j.status == j.STATUSES[1] for j in jobs)
+            for job_form in job_formset:
+                if job_form.cleaned_data and not job_form.cleaned_data.get('DELETE', False):
+                    if job_form.cleaned_data.get('role') and job_form.cleaned_data.get('manpower_required'):
+                        job = job_form.save(commit=False)
+                        job.commission = commission
+                        job.save()
 
-            if jobs.exists() and all_jobs_full:
-                form.status = Commission.STATUSES[1]
-
-            form.save()
-
-            return redirect(form.instance.get_absolute_url())
+            commission.update_status()
+            return redirect(commission.get_absolute_url())
 
         else:
-            self.object_list = self.get_queryset(**kwargs)
             ctx = self.get_context_data(**kwargs)
             ctx['form'] = form
+            ctx['job_formset'] = job_formset
             return self.render_to_response(ctx)

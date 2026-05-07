@@ -41,6 +41,14 @@ class Commission(models.Model):
 
     def get_absolute_url(self):
         return reverse('commissions:request_detail', args=[str(self.id)])
+    
+    def update_status(self):
+        jobs = self.job.all()
+        if jobs.exists() and all(job.is_full() for job in jobs):
+            self.status = 'FULL'
+        else:
+            self.status = 'OPEN'
+        self.save()
 
     class Meta:
         ordering = ["-status", "-created_on"]
@@ -56,7 +64,7 @@ class Job(models.Model):
     )
     role = models.CharField(max_length=255)
     manpower_required = models.PositiveIntegerField()
-    status = models.CharField(choices=STATUSES, default=STATUSES[0])
+    status = models.CharField(choices=STATUSES, default=STATUSES[0], blank=True)
 
     def __str__(self):
         return str(self.commission.title + ": " + self.role)

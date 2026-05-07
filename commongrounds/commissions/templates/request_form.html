@@ -6,6 +6,18 @@
     <form method="POST">
         {% csrf_token %}
         {{ form }}
+
+        <h3>Jobs</h3>
+        {{ job_formset.management_form }}
+        {% for job_form in job_formset %}
+            <ul>
+                <li>
+                    {{ job_form }}
+                </li>
+            </ul>
+            
+        {% endfor %}
+
         <input type="submit" name="submit" value="Save Form">
     </form>
 
