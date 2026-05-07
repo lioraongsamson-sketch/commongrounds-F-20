@@ -57,6 +57,9 @@ class Bookmark(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     date_bookmarked = models.DateField()
 
+    def __str__(self):
+        return f"{self.profile} bookmarked {self.book} on {self.date_bookmarked}"
+
 class Borrow(models.Model): #TO-DO: Fix when logged in/not
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     borrower = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE) #set when logged in

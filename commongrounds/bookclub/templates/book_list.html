@@ -9,33 +9,45 @@
 
         <h4>Books Contributed</h4>
         <ul>
-            {% for books in books_user %}
+            {% for books in contributed_books %}
             <li>
                 <a href = "{{ books.get_absolute_url }}">
                     {{ books.title }}
                 </a>
             </li>
             {% empty %}
-                <p>No books contributed.</p>
+                <p><i>Sharing is caring. No books contributed yet.</i>></p>
             {% endfor %}
         </ul>
     <h4>My Bookmarks</h4>
     <ul>
-        <li>
-            test
-        </li>
+        {% for books in bookmarked_books %}
+            <li>
+                <a href = "{{ books.get_absolute_url }}">
+                    {{ books.title }}
+                </a>
+            </li>
+            {% empty %}
+                <p><i>The brain is an unreliable archive. No bookmarks yet.</i></p>
+        {% endfor %}
     </ul>
     <h4>My Reviews</h4>
     <ul>
-        <li>
-            test
-        </li>
+        {% for books in reviewed_books %}
+            <li>
+                <a href = "{{ books.get_absolute_url }}">
+                    {{ books.title }}
+                </a>
+            </li>
+            {% empty %}
+                <p><i>Your thoughts matter. No reviews yet.</i></p>
+        {% endfor %}
     </ul>
     {% endif %} 
     
     <h4>Bookshelf</h4>
     <ul>
-        {% for books in book_list %}
+        {% for books in all_books %}
             <li>
                 <a href = "{{ books.get_absolute_url }}">
                     {{ books.title }}

@@ -13,14 +13,24 @@ class BookListView(ListView):
     model = Book
     template_name = "book_list.html"
     
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     if self.request.user.is_authenticated:
-    #         profile = self.request.user.profile
-    #         context['contributed'] = Book.objects.filter(contributor=profile)
-    #         context['bookmarks'] = Book.objects.filter(bookmark=profile)
-    #         context['reviewed'] = Book.object.filter(reviews=profile)
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_books = Book.objects.all()
+        if self.request.user.is_authenticated:
+            profile = self.request.user.profile
+            contributions = context['contributed_books'] = all_books.filter(contributor=profile)
+            bookmarks = context['bookmarked_books'] = all_books.filter(bookmark__profile=profile)
+            reviews = context['reviewed_books'] = all_books.filter(reviews__user_reviewer=profile)
+
+            contributed = [book.pk for book in contributions]
+            bookmarked = [book.pk for book in bookmarks]
+            reviewed = [book.pk for book in reviews]
+
+            user_books = contributed + bookmarked + reviewed
+
+            context['all_books'] = all_books.exclude(pk__in=user_books)
+
+        return context
 
 
 class BookDetailView(DetailView):
