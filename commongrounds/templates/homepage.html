@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <p> Welcome to Commongrounds, {{ user.username }}! </p>
+    {% else %}
+        <p> Welcome to Commongrounds!</p>
+    {% endif %}
+    <li><a href="{% url 'merchstore:product_list' %}"> Merchandise Store </a></li>
+    <li><a href="{% url 'localevents:event_list' %}"> Local Events </a></li>
+    <li><a href="{% url 'bookclub:book_list' %}"> Book Club </a></li>
+    <li><a href="{% url 'diyprojects:project_list' %}"> DIY Projects </a></li>
+    <li><a href="{% url 'commissions:request_list' %}"> Commission Requests </a></li>
+{% endblock %}
