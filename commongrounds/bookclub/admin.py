@@ -13,11 +13,14 @@ class BookAdmin(admin.ModelAdmin):
 class GenreAdmin(admin.ModelAdmin):
     model = Genre
 
+
 class BookReviewAdmin(admin.ModelAdmin):
     model = BookReview
 
+
 class BookmarkAdmin(admin.ModelAdmin):
     model = Bookmark
+
 
 class BorrowAdmin(admin.ModelAdmin):
     model = Borrow

@@ -7,26 +7,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0001_initial'),
-        ('bookclub', '0001_initial'),
+        ("accounts", "0001_initial"),
+        ("bookclub", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='book',
-            name='available_to_borrow',
+            model_name="book",
+            name="available_to_borrow",
             field=models.BooleanField(default=True),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='book',
-            name='contributor',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.profile'),
+            model_name="book",
+            name="contributor",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="accounts.profile",
+            ),
         ),
         migrations.AddField(
-            model_name='book',
-            name='synopsis',
-            field=models.TextField(default='abc'),
+            model_name="book",
+            name="synopsis",
+            field=models.TextField(default="abc"),
             preserve_default=False,
         ),
     ]

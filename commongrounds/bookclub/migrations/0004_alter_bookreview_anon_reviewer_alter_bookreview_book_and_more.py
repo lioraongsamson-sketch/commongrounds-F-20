@@ -7,24 +7,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0002_profile_role'),
-        ('bookclub', '0003_bookmark_bookreview_borrow'),
+        ("accounts", "0002_profile_role"),
+        ("bookclub", "0003_bookmark_bookreview_borrow"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='bookreview',
-            name='anon_reviewer',
+            model_name="bookreview",
+            name="anon_reviewer",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='bookreview',
-            name='book',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='bookclub.book'),
+            model_name="bookreview",
+            name="book",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reviews",
+                to="bookclub.book",
+            ),
         ),
         migrations.AlterField(
-            model_name='bookreview',
-            name='user_reviewer',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='accounts.profile'),
+            model_name="bookreview",
+            name="user_reviewer",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="accounts.profile",
+            ),
         ),
     ]

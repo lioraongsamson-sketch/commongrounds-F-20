@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bookclub', '0004_alter_bookreview_anon_reviewer_alter_bookreview_book_and_more'),
+        (
+            "bookclub",
+            "0004_alter_bookreview_anon_reviewer_alter_bookreview_book_and_more",
+        ),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='bookmark',
-            name='date_bookmarked',
+            model_name="bookmark",
+            name="date_bookmarked",
             field=models.DateField(auto_now_add=True),
         ),
     ]
