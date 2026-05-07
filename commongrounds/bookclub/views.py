@@ -33,6 +33,9 @@ class BookListView(ListView):
 
             context['all_books'] = all_books.exclude(pk__in=user_books)
 
+        else:
+            context['all_books'] = all_books
+
         return context
 
 
@@ -58,7 +61,9 @@ class BookDetailView(DetailView):
 
         #for bookmarks
         context["bookmark_count"] = Bookmark.objects.filter(book=book).count()
-        context["bookmarked"] = Bookmark.objects.filter(book=book, profile=user.profile).exists()
+
+        if user.is_authenticated:
+            context["bookmarked"] = Bookmark.objects.filter(book=book, profile=user.profile).exists()
 
         return context
     
@@ -66,14 +71,17 @@ class BookDetailView(DetailView):
         book = self.get_object()
 
         #for bookmarks
-        if request.POST.get('to_bookmark') == 'bookmark':
-            bookmarked_book = Bookmark.objects.filter(book=book, profile=self.request.user.profile)
+        if self.request.user.is_authenticated:
+            if request.POST.get('to_bookmark') == 'bookmark':
+                bookmarked_book = Bookmark.objects.filter(book=book, profile=self.request.user.profile)
 
-            if bookmarked_book.exists():
-                bookmarked_book.delete()
-            else:
-                Bookmark.objects.create(book=book, profile=self.request.user.profile, date_bookmarked=timezone.now())
-            return redirect('bookclub:book_detail', pk=book.pk)
+                if bookmarked_book.exists():
+                    bookmarked_book.delete()
+                else:
+                    Bookmark.objects.create(book=book, profile=self.request.user.profile, date_bookmarked=timezone.now())
+                return redirect('bookclub:book_detail', pk=book.pk)
+        else:
+            return redirect('/accounts/login/')
 
         #for reviews
         form = BookReviewForm(request.POST)
