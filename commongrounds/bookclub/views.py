@@ -89,8 +89,6 @@ class BookDetailView(DetailView):
                         date_bookmarked=timezone.now(),
                     )
                 return redirect("bookclub:book_detail", pk=book.pk)
-        else:
-            return redirect("/accounts/login/")
 
         # for reviews
         form = BookReviewForm(request.POST)
@@ -151,7 +149,7 @@ class BookBorrowView(UpdateView):
                 Borrow.objects.create(
                     book=book,
                     borrower=request.user.profile,
-                    name=request.user.profile.display_name,
+                    name=request.user.profile,
                     date_borrowed=date_borrowed,
                     date_to_return=date_to_return,
                 )
