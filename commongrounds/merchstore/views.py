@@ -46,7 +46,7 @@ class ProductDetailView(DetailView):
 
         if not request.user.is_authenticated:
             login_url = reverse('login')
-            return redirect(f"{login_url}?next={request.path}")
+            return redirect(login_url, next = request.path)
 
         if request.user == product.owner:
             return redirect('product_detail', pk=product.pk)
