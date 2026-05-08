@@ -19,7 +19,7 @@
                 {% if user.is_authenticated %}
                     <form method="POST" action="{% url 'logout' %}">
                         {% csrf_token %}
-                            <button class="ui_button" type="submit">Logout</button>
+                            <button id="logout" class="ui_button" type="submit">Logout</button>
                             <button class="ui_button"><a href="{{ user.profile.get_absolute_url }}">Update Profile</a></button>
                     </form>
                 {% else %}

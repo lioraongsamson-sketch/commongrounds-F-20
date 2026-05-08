@@ -2,19 +2,26 @@
 {% load static %}
 
 {% block content %}
-    <p>Welcome, {{ user.profile.display_name }}!</p>
-    <h1>Commission Requests</h1>
-    <h2>Commission Details</h2>
-    <p><b>Creator: </b>{{ commission.maker }}</p>
-    <p><b>Title: </b>{{ commission.title }}</p>
-    <p><b>Description: </b>{{ commission.description }}</p>
-    <p><b>People Required: </b>{{ commission.people_required }}</p>
-    <p><b>Total Manpower: </b> {{ total_manpower }}</p>
-    <p><b>Open Manpower: </b> {{ open_manpower }}</p>
+    <h1 class="app_head"><a href="/commissions/requests">Commission Requests</a></h1>
+    <h2 class="app_head">Commission Details</h2>
+    <div class="detail">
+        {% if commission.maker == request.user.profile %}
+            <a href="{% url 'commissions:request_update' commission.pk %}"><p>Edit commission</p></a>
+        {% endif%}
+    </div>
+    <div class="detail">
+        <p><b>Title: </b>{{ commission.title }}</p>
+        <p><b>Creator: </b>{{ commission.maker }}</p>
+        <p><b>Description: </b>{{ commission.description }}</p>
+        <p><b>People Required: </b>{{ commission.people_required }}</p>
+        <p><b>Total Manpower: </b> {{ total_manpower }}</p>
+        <p><b>Open Manpower: </b> {{ open_manpower }}</p>
+    </div>
     
-    <h2>Jobs</h2>
+    
+    <h2 class="app_head">Jobs</h2>
     {% for job in commission.job.all %}
-        <ul>
+        <ul class="list">
             <li><b>{{ job.role }} [{{ job.status }}]</b>
                 <p>Manpower Required: {{ job.manpower_required }}</p>
                 <p>Accepted Applicants: {{ job.get_accepted_apps }}</p>
@@ -40,15 +47,7 @@
 
     
 
-    {% if commission.maker == request.user.profile %}
-        <a href="{% url 'commissions:request_update' commission.pk %}"><p>Edit commission</p></a>
-    {% endif%}
-
     
     
-    
-    
-
-    <p><a href="/commissions/requests">Home</a></p>
 
 {% endblock %}    

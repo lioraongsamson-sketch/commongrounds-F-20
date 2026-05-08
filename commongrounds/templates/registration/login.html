@@ -4,7 +4,6 @@
 {% block page_heading %} <h2 class="heading">Login</h2> {% endblock %}
 
 {% block content %}
-    <img src="css/images/tungtungsahur.png" width="100">
     <div class="login">
         <form method="POST">
         {% csrf_token %}
@@ -15,6 +14,10 @@
         </form> 
     </div>
     <a class="pw" href="{% url 'password_reset' %}">Forgot password?</a>
+
+    
+
+    
     
     
 {% endblock %}

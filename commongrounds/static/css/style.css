@@ -1,10 +1,13 @@
 * {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color:white;
+}
+
+body {
     background: #b33b69;
     background: linear-gradient(0deg, rgba(179, 59, 105, 1) 0%, rgba(217, 146, 15, 1) 32%, rgba(124, 81, 133, 1) 65%, rgba(12, 7, 166, 1) 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    color:white;
 }
 
 .up a {
@@ -98,3 +101,67 @@
 }
 
 
+.app_head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subhead {
+    margin-left: 20%;
+}
+
+.items {
+    margin-left: 20%;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail p {
+    padding: 0 15px 0 0;
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+option {
+    color: black;
+}
+
+input, 
+textarea,
+select {
+    background-color: white;
+    color: black;
+}
+
+button {
+    color: black;
+}
+
+#logout {
+    color: white;
+}
