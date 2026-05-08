@@ -137,19 +137,19 @@ class BookBorrowView(UpdateView):
     def get_queryset(self):
         queryset = Book.objects.all()
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["borrow"] = BookBorrowForm()
         return context
-    
+
     def get_initial(self):
         initial = super().get_initial()
         if self.request.user.is_authenticated:
             initial["name"] = self.request.user.profile.display_name
         initial["date_borrowed"] = timezone.now().date()
         return initial
-    
+
     def post(self, request, *args, **kwargs):
         form = BookBorrowForm(request.POST)
         book = self.get_object()

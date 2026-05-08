@@ -56,7 +56,7 @@ class BookReview(models.Model):
             return f"Reviewed by {self.user_reviewer}"
         else:
             return f"Reviewed by Anonymous"
-        
+
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
@@ -69,7 +69,7 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"{self.profile} bookmarked {self.book} on {self.date_bookmarked}"
-    
+
     class Meta:
         verbose_name = "Bookmark"
         verbose_name_plural = "Bookmarks"
@@ -87,7 +87,7 @@ class Borrow(models.Model):
             return f"Borrowed by {self.borrower}"
         else:
             return f"Borrowed by {self.name}"
-        
+
     class Meta:
         verbose_name = "Borrow"
         verbose_name_plural = "Borrows"

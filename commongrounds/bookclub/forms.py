@@ -5,13 +5,17 @@ from .models import Book, BookReview, Borrow
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        exclude = ["contributor",]
+        exclude = [
+            "contributor",
+        ]
 
 
 class BookUpdateForm(forms.ModelForm):
     class Meta:
         model = Book
-        exclude = ["contributor",]
+        exclude = [
+            "contributor",
+        ]
 
 
 class BookReviewForm(forms.ModelForm):
