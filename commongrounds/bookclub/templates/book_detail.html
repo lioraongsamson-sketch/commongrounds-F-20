@@ -10,7 +10,11 @@
     <p><b>Genre: </b>{{ book.genre }}</p>
     <h4>Synopsis</h4>
     <p>{{ book.synopsis }}</p>
-    <p><i>Available to be borrowed?</i> <b>{{ book.available_to_borrow }}</b></p>
+    {% if book.available_to_borrow %}
+        <p><i>Available for borrowing</i></p>
+    {% else %}
+        <p><i>Not available for borrowing</i></p>
+    {% endif %}
     
     {% if book.available_to_borrow %}
         <a href="{% url 'bookclub:book_borrow' book.pk %}">Borrow this book</a>

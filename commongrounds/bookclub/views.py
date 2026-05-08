@@ -56,11 +56,11 @@ class BookDetailView(DetailView):
         book = self.get_object()
         user = self.request.user
 
-        # for reviews
+        # reviews
         context["review"] = BookReviewForm()
         context["reviews"] = book.reviews.all()
 
-        # for bookmarks
+        # bookmarks
         context["bookmark_count"] = Bookmark.objects.filter(book=book).count()
 
         if user.is_authenticated:
@@ -74,7 +74,7 @@ class BookDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         book = self.get_object()
 
-        # for bookmarks
+        # bookmarks
         if self.request.user.is_authenticated:
             if request.POST.get("to_bookmark") == "bookmark":
                 bookmarked_book = Bookmark.objects.filter(
@@ -91,7 +91,7 @@ class BookDetailView(DetailView):
                     )
                 return redirect("bookclub:book_detail", pk=book.pk)
 
-        # for reviews
+        # reviews
         form = BookReviewForm(request.POST)
 
         if form.is_valid():
@@ -131,13 +131,25 @@ class BookUpdateView(RoleRequiredMixin, UpdateView):
 
 class BookBorrowView(UpdateView):
     model = Borrow
-    form_class = BookBorrowForm
     template_name = "book_borrow.html"
+    form_class = BookBorrowForm
 
     def get_queryset(self):
         queryset = Book.objects.all()
         return queryset
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["borrow"] = BookBorrowForm()
+        return context
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.request.user.is_authenticated:
+            initial["name"] = self.request.user.profile.display_name
+        initial["date_borrowed"] = timezone.now().date()
+        return initial
+    
     def post(self, request, *args, **kwargs):
         form = BookBorrowForm(request.POST)
         book = self.get_object()
@@ -150,7 +162,7 @@ class BookBorrowView(UpdateView):
                 Borrow.objects.create(
                     book=book,
                     borrower=request.user.profile,
-                    name=request.user.profile,
+                    name=request.user.profile.display_name,
                     date_borrowed=date_borrowed,
                     date_to_return=date_to_return,
                 )
